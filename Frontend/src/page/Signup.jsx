@@ -58,6 +58,11 @@ const Signup = () => {
             .then((data) => {
               console.log(data);
               toast(data.message);
+              if(data.redirect){
+                setTimeout(() => {
+                  navigate("/login");
+                }, 1000);
+              }
             })
             .catch((error) => {
               console.error("Error:", error);

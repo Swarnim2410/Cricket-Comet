@@ -102,13 +102,13 @@ app.post("/login", async (req, res) => {
 const productSchema = new mongoose.Schema({
   name: String,
   category: String,
-  immage: String,
+  image: String,
   price: String,
   description: String,
 });
 const productModel = mongoose.model("product", productSchema);
 
-//save product in database -->
+//save a new product in database -->
 
 app.post("/addproduct", async (req, res) => {
   console.log(req.body);
@@ -121,6 +121,13 @@ app.post("/addproduct", async (req, res) => {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal Server Error", redirect: false });
   }
+});
+
+//get all products in an api -->
+
+app.get("/product", async (req, res) => {
+  const data = await productModel.find({});
+  res.send(data);
 });
 
 //running server -->

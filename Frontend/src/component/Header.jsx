@@ -4,25 +4,27 @@ import { ImCart } from "react-icons/im";
 import { HiUserCircle } from "react-icons/hi2";
 import Burger from "../assest/burger-category.png";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutRedux } from "../redux/userSlice"
-import { toast } from "react-hot-toast"
+import { logoutRedux } from "../redux/userSlice";
+import { toast } from "react-hot-toast";
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   //fetching data from redux-store (userData will contain details if user is logged in else it will be empty )-->
 
   const userData = useSelector((state) => state.user);
-  // console.log(userData);
+  //console.log(userData);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleLogout  = () => {
-    toast("Back to home page")
+  const handleLogout = () => {
+    toast("Back to home page");
     dispatch(logoutRedux());
-  }
+  };
   const showMeDropdown = () => {
     setShowDropdown((pre) => !pre);
   };
+
+  console.log(import.meta.env.VITE_APP_ADMIN_EMAIL);
   return (
     <header className="fixed shadow-lg w-full h-16 z-50">
       <div className="flex items-center h-full justify-between bg-slate-400">
@@ -66,19 +68,19 @@ const Header = () => {
             </div>
             {showDropdown && (
               <div className="bg-slate-600 absolute top-18 right-1.5 py-2 px-4 shadow drop-shadow-md flex flex-col">
-                <Link
-                  to={"addproduct"}
-                  className="whitespace-nowrap cursor-pointer "
-                >
-                  Add Product
-                </Link>
-
+                {userData.email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
+                  <Link
+                    to={"addproduct"}
+                    className="whitespace-nowrap cursor-pointer "
+                  >
+                    Add Product
+                  </Link>
+                )}
                 {userData.email ? (
                   <p
                     className="whitespace-nowrap cursor-pointer"
                     onClick={handleLogout}
                   >
-                    {" "}
                     Logout
                   </p>
                 ) : (
