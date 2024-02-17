@@ -58,9 +58,6 @@ const Signup = () => {
             .then((data) => {
               console.log(data);
               toast(data.message);
-              if(data.redirect){
-                navigate("/login")
-              }
             })
             .catch((error) => {
               console.error("Error:", error);

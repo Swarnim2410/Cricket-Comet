@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 const PORT = process.env.PORT || 5000;
 
 //connecting database -->
@@ -106,14 +106,22 @@ const productSchema = new mongoose.Schema({
   price: String,
   description: String,
 });
-
 const productModel = mongoose.model("product", productSchema);
 
 //save product in database -->
 
-app.post("/addproduct",(req,res)=>{
-    console.log(req.body)
-})
+app.post("/addproduct", async (req, res) => {
+  console.log(req.body);
+  try {
+    // creating a new user in database
+    const data = new productModel(req.body);
+    await data.save();
+    res.send({ message: "Product added successfully", redirect: true });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal Server Error", redirect: false });
+  }
+});
 
 //running server -->
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));

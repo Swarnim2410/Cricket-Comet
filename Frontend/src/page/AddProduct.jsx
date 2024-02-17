@@ -2,6 +2,7 @@ import React from "react";
 import { IoCloudUploadSharp } from "react-icons/io5";
 import { ImagetoBase64 } from "../utility/ImagetoBase64";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 const AddProduct = () => {
   const [images, setImage] = useState(false);
   const [data, setData] = useState({
@@ -12,7 +13,7 @@ const AddProduct = () => {
     description: "",
   });
 
-  console.log(data);
+  //console.log(data);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -39,9 +40,46 @@ const AddProduct = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const { name, category, image, price, description } = data;
+    if (name && category && image && price && description) {
+      //sending data to backend server in signup and getting response in fetchData
+      const fetchData = await fetch(
+        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      )
+        // Handle the response from the backend
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          toast(data.message);
+          if(data.redirect){
+            setImage(() => false);
+          }
+          setData(() => {
+            return {
+              name: "",
+              category: "",
+              price: "",
+              description: "",
+            };
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      toast("Enter all details");
+    }
   };
+
   return (
     <div className="min-h-screen p-6 bg-black flex items-center justify-center">
       <div className="container max-w-screen-lg mx-auto">
@@ -84,11 +122,12 @@ const AddProduct = () => {
                         onChange={handleOnChange}
                         value={data.category}
                       >
-                        <option>Bats</option>
-                        <option>Balls</option>
-                        <option>Helmets</option>
-                        <option>Gloves</option>
-                        <option>Other</option>
+                        <option value="value">Select Category</option>
+                        <option value="bats">Bats</option>
+                        <option value="balls">Balls</option>
+                        <option value="helmets">Helmets</option>
+                        <option value="gloves">Gloves</option>
+                        <option value="shirts">Shirts</option>
                       </select>
                     </div>
 
@@ -98,6 +137,7 @@ const AddProduct = () => {
                         className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        {/* {console.log(images)} */}
                           {images ? (
                             <img
                               src={data.image}
@@ -116,7 +156,7 @@ const AddProduct = () => {
                                 or drag and drop
                               </p>
                               <p className="text-xs text-gray-500 dark:text-gray-400">
-                                SVG, PNG, JPG, or GIF (MAX. 800x400px)
+                                SVG, PNG, or JPG
                               </p>
                             </>
                           )}
@@ -135,7 +175,7 @@ const AddProduct = () => {
                     <div className="md:col-span-5">
                       <label htmlFor="price">Price</label>
                       <input
-                        type="text"
+                        type="number"
                         name="price"
                         id="price"
                         onChange={handleOnChange}
