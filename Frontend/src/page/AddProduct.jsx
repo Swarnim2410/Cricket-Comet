@@ -194,6 +194,7 @@ const AddProduct = () => {
                         className="h-20 border mt-1 rounded px-4 w-full bg-black
                       text-white"
                       ></textarea>
+                      
                     </div>
 
                     <div className="md:col-span-5 text-center">
