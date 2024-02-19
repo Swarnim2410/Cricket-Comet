@@ -24,9 +24,9 @@ function App() {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log(productData);
-  }, [productData]);
+  // useEffect(() => {
+  //   console.log(productData);
+  // }, [productData]);
 
   //app.jsx starts -->
 
