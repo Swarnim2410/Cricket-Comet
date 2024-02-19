@@ -127,7 +127,7 @@ app.post("/addproduct", async (req, res) => {
 
 app.get("/product", async (req, res) => {
   const data = await productModel.find({});
-  res.send(data);
+  res.send(JSON.stringify(data));
 });
 
 //running server -->

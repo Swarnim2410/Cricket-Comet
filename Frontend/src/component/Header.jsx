@@ -24,7 +24,7 @@ const Header = () => {
     setShowDropdown((pre) => !pre);
   };
 
-  console.log(import.meta.env.VITE_APP_ADMIN_EMAIL);
+  //console.log(import.meta.env.VITE_APP_ADMIN_EMAIL);
   return (
     <header className="fixed shadow-lg w-full h-16 z-50">
       <div className="flex items-center h-full justify-between bg-slate-400">

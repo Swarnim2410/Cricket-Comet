@@ -60,7 +60,7 @@ const AddProduct = () => {
         .then((data) => {
           console.log(data);
           toast(data.message);
-          if(data.redirect){
+          if (data.redirect) {
             setImage(() => false);
           }
           setData(() => {
@@ -137,7 +137,7 @@ const AddProduct = () => {
                         className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        {/* {console.log(images)} */}
+                          {/* {console.log(images)} */}
                           {images ? (
                             <img
                               src={data.image}
@@ -194,7 +194,6 @@ const AddProduct = () => {
                         className="h-20 border mt-1 rounded px-4 w-full bg-black
                       text-white"
                       ></textarea>
-                      
                     </div>
 
                     <div className="md:col-span-5 text-center">

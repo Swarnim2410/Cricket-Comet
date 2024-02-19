@@ -18,7 +18,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user);
+  // const userData = useSelector((state) => state.user);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +63,7 @@ const Login = () => {
     }
   };
 
-  //this is to print the data from the store after dispatching it succesfully -->
+  // this is to print the data from the store after dispatching it succesfully -->
 
   // useEffect(() => {
   //   // Actions to perform after userData changes
