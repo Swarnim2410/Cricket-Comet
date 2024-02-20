@@ -35,13 +35,14 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center gap-3 md:gap-5">
-          <nav className="flex gap-4 md:gap-7 text-black px-5">
-            <div className="text-blue-700 hover:text-blue-800">
-              <Link to={""} className="font-bold">
-                Home
-              </Link>
-            </div>
-            <Link to={"menu"} className="font-medium">
+          <nav className="gap-4 md:gap-7 text-black px-5 hidden md:flex">
+            <Link
+              to={""}
+              className="font-bold text-blue-700 hover:text-blue-800"
+            >
+              Home
+            </Link>
+            <Link to={"menu/65d34caca0a9c77e770e912d"} className="font-medium">
               Menu
             </Link>
             <Link to={"about"} className="font-medium">
@@ -67,7 +68,7 @@ const Header = () => {
               <HiUserCircle />
             </div>
             {showDropdown && (
-              <div className="bg-slate-600 absolute top-18 right-1.5 py-2 px-4 shadow drop-shadow-md flex flex-col">
+              <div className="bg-slate-600 absolute top-18 right-1.5 py-2 px-4 shadow drop-shadow-md flex flex-col min-w-[120px] text-center">
                 {userData.email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
                   <Link
                     to={"addproduct"}
@@ -78,7 +79,7 @@ const Header = () => {
                 )}
                 {userData.email ? (
                   <p
-                    className="whitespace-nowrap cursor-pointer"
+                    className="whitespace-nowrap cursor-pointer px-2"
                     onClick={handleLogout}
                   >
                     Logout
@@ -86,11 +87,28 @@ const Header = () => {
                 ) : (
                   <Link
                     to={"login"}
-                    className="whitespace-nowrap cursor-pointer"
+                    className="whitespace-nowrap cursor-pointer font-bold text-black"
                   >
-                    Login
+                    Login/Signup
                   </Link>
                 )}
+                <nav className=" text-black  flex flex-col md:hidden">
+                  <Link to={""} className="font-bold px-2 py-1">
+                    Home
+                  </Link>
+                  <Link
+                    to={"menu/65d34caca0a9c77e770e912d"}
+                    className="font-medium px-1 py-1"
+                  >
+                    Menu
+                  </Link>
+                  <Link to={"about"} className="font-medium px-2 py-1">
+                    About
+                  </Link>
+                  <Link to={"contact"} className="font-medium px-2 py-1">
+                    Contact
+                  </Link>
+                </nav>
               </div>
             )}
           </div>
