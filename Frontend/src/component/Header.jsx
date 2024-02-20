@@ -24,6 +24,9 @@ const Header = () => {
     setShowDropdown((pre) => !pre);
   };
 
+  //get number of items in cart from cartItem stored in ProductSlice.jsx -->
+  const cartItemNumber = useSelector((state) => state.product.cartItem);
+
   //console.log(import.meta.env.VITE_APP_ADMIN_EMAIL);
   return (
     <header className="fixed shadow-lg w-full h-16 z-50">
@@ -53,10 +56,12 @@ const Header = () => {
             </Link>
           </nav>
           <div className="text-2xl relative cursor-pointer text-blue-700 hover:text-blue-800">
-            <ImCart />
-            <div className="absolute -top-2 -right-1 text-white bg-black h-4 w-4 rounded-full m-0 p-0 text-sm text-center">
-              0
-            </div>
+            <Link to={"cart"}>
+              <ImCart />
+              <div className="absolute -top-2 -right-1 text-white bg-black h-4 w-4 rounded-full m-0 p-0 text-sm text-center">
+                {cartItemNumber.length}
+              </div>
+            </Link>
           </div>
 
           {/* we will only show dropdown on clicking */}

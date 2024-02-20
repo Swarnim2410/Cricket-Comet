@@ -40,7 +40,9 @@ const AllProducts = ({ heading }) => {
 
   //dataFilter will contain all items of particular category
   //useEffect is used to set initial value to allProducts and it will run whenever productData changes
+  
   const [dataFilter, setDataFilter] = useState([]);
+
 
   useEffect(() => {
     setDataFilter(productData);

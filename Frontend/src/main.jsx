@@ -15,6 +15,7 @@ import Home from "./page/Home.jsx";
 import Login from "./page/Login.jsx";
 import AddProduct from "./page/AddProduct.jsx";
 import Signup from "./page/Signup.jsx";
+import Cart from "./page/Cart.jsx";
 
 //redux imports -->
 import { store } from "./redux/index.jsx";
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="addproduct" element={<AddProduct />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="cart" element={<Cart />} />
     </Route>
   )
 );

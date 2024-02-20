@@ -1,7 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import AllProducts from "../component/AllProducts";
+import { addCartItem } from "../redux/productSlice";
 
 const Menu = () => {
   //getting id passed in params
@@ -10,10 +11,20 @@ const Menu = () => {
 
   //getting that product with the id
   const productDisplay = productData.filter((itr) => itr._id === productID)[0];
-console.log(productDisplay);
+  //console.log(productDisplay);
+
+  /* REDUX PART */
+
+  
+  const dispatch = useDispatch();
+  const handleAddCartProduct = (itr) => {
+    dispatch(
+      addCartItem(productDisplay)
+    );
+  };
 
   if (!productDisplay) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
   return (
     <div className="p-2 md:p-4">
@@ -42,6 +53,7 @@ console.log(productDisplay);
             </button>
             <button
               type="button"
+              onClick={handleAddCartProduct}
               class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             >
               Add to Cart
@@ -54,7 +66,7 @@ console.log(productDisplay);
         </div>
       </div>
 
-      <AllProducts heading={"Filter by  your own preference"}/>
+      <AllProducts heading={"Filter by  your own preference"} />
     </div>
   );
 };
