@@ -33,23 +33,29 @@ const AllProducts = ({ heading }) => {
   //   };
 
   //to extract all categories present..
+
   const categoryList = [
     ...new Set(productData.map((itr) => itr.category)),
   ].sort();
+
   //console.log(categoryList);
 
   //dataFilter will contain all items of particular category
-  //useEffect is used to set initial value to allProducts and it will run whenever productData changes
-  
-  const [dataFilter, setDataFilter] = useState([]);
 
+  const [dataFilter, setDataFilter] = useState([]);
+  const [filterBy, setFilterBy] = useState("");
+
+  //useEffect is used to set initial value to allProducts and it will run whenever productData changes
 
   useEffect(() => {
     setDataFilter(productData);
   }, [productData]);
 
   // handleFilterProduct(category) will filter the data according to provided category..
+
   const handleFilterProduct = (category) => {
+    setFilterBy(category);
+
     const filteredData = productData.filter(
       (itr) => itr.category.toLowerCase() === category.toLowerCase()
     );
@@ -59,6 +65,7 @@ const AllProducts = ({ heading }) => {
   };
 
   return (
+    /* display all categories*/
     <div className="my-5">
       <p className="font-bold text-2xl text-slate-300 mb-4">{heading}</p>
       <div className="flex gap-4 justify-center overflow-scroll scrollbar-none">
@@ -67,11 +74,14 @@ const AllProducts = ({ heading }) => {
             <FilterProduct
               category={itr}
               key={index}
+              isActive={itr.toLowerCase() === filterBy.toLowerCase()}
               onClick={() => handleFilterProduct(itr)}
             />
           );
         })}
       </div>
+
+      {/* display items of a filtered category*/}
 
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {dataFilter.map((itr) => {
