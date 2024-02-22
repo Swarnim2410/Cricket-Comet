@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { GrNext } from "react-icons/gr";
 import { BiSolidCricketBall } from "react-icons/bi";
+import { BsDoorOpenFill } from "react-icons/bs";
 import { GrPrevious } from "react-icons/gr";
 import HomeCard from "../component/HomeCard.jsx";
 import CardFeature from "../component/CardFeature.jsx";
@@ -79,6 +80,12 @@ const Home = () => {
               </p>
               <p className="h-4 text-black">{<BiSolidCricketBall />}</p>
             </div>
+            <div className="flex gap-2 bg-slate-300 w-48 px-2 py-1 items-center rounded-full">
+              <p className="text-sm font-medium text-black">
+                Everything at doorstep
+              </p>
+              <p className="h-4 text-black">{<BsDoorOpenFill />}</p>
+            </div>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold py-3">
             The fastest delievery to{" "}
@@ -103,6 +110,9 @@ const Home = () => {
             </span>
           </button>
         </div>
+
+        {/* 4 Home Cards */}
+
         <div className="md:w-1/2 px-4 py-4 md:flex md:flex-wrap gap-6">
           {homeProductList[0]
             ? homeProductList.map((itr, index) => (
@@ -165,6 +175,7 @@ const Home = () => {
       </div>
 
       {/*all categories with filter options*/}
+
       <AllProducts heading={"Your Product"} />
     </div>
   );
