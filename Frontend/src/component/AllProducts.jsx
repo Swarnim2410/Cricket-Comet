@@ -65,8 +65,8 @@ const AllProducts = ({ heading }) => {
   };
 
   return (
-    /* display all categories*/
     <div className="my-5">
+      {/* display all categories*/}
       <p className="font-bold text-2xl text-slate-300 mb-4">{heading}</p>
       <div className="flex gap-4 justify-center overflow-scroll scrollbar-none">
         {categoryList.map((itr, index) => {
@@ -81,7 +81,7 @@ const AllProducts = ({ heading }) => {
         })}
       </div>
 
-      {/* display items of a filtered category*/}
+      {/* display items of a filtered category from above categories*/}
 
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {dataFilter.map((itr) => {
