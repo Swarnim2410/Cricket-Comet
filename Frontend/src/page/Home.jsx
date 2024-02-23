@@ -11,8 +11,11 @@ import CardFeature from "../component/CardFeature.jsx";
 import HomeCardNull from "../component/HomeCardNull.jsx";
 import { useRef } from "react";
 import AllProducts from "../component/AllProducts.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const navigate = useNavigate()
   const productData = useSelector((state) => state.product.productList);
 
   // console.log(productData);

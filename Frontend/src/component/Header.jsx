@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ImCart } from "react-icons/im";
 import { HiUserCircle } from "react-icons/hi2";
 import Burger from "../assest/burger-category.png";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutRedux } from "../redux/userSlice";
 import { toast } from "react-hot-toast";
 const Header = () => {
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
   //fetching data from redux-store (userData will contain details if user is logged in else it will be empty )-->
@@ -19,6 +20,9 @@ const Header = () => {
   const handleLogout = () => {
     toast("Back to home page");
     dispatch(logoutRedux());
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
   const showMeDropdown = () => {
     setShowDropdown((pre) => !pre);
