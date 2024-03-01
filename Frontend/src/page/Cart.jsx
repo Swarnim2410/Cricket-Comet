@@ -65,7 +65,7 @@ const Cart = () => {
               </p>
               <div className="mt-4">
                 <Link
-                  to={`/menu/65d34caca0a9c77e770e912d`}
+                  to={`/menu`}
                   className="text-blue-600 underline"
                 >
                   Click here to explore our products

@@ -49,8 +49,8 @@ const Header = () => {
             >
               Home
             </Link>
-            <Link to={"menu/65d34caca0a9c77e770e912d"} className="font-medium">
-              Menu
+            <Link to={"menu"} className="font-medium">
+              Items
             </Link>
             <Link to={"about"} className="font-medium">
               About
