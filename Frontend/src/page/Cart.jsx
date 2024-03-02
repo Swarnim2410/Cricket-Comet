@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
+  const user = useSelector((state) => state.user);
   const productCartItem = useSelector((state) => state.product.cartItem);
   //console.log(productCartItem);
 
@@ -24,28 +25,34 @@ const Cart = () => {
 
   /*************PAYMENT WORK******************/
 
-  
   const handlePayment = async () => {
+    if (user.email) {
+      const stripePromise = await loadStripe(
+        import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY
+      );
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/payment`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(productCartItem),
+        }
+      );
+      if (res.statusCode === 500) return;
 
-    const stripePromise = await loadStripe(
-      import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY
-    );
+      const data = await res.json();
+      console.log(data);
 
-    const res = await fetch(
-      `${import.meta.env.VITE_APP_SERVER_DOMAIN}/payment`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(productCartItem),
-      }
-    );
-    if (res.statusCode === 500) return;
-    const data = await res.json();
-    console.log(data);
-    toast("Redirecting to payment gateway..");
-    stripePromise.redirectToCheckout({sessionId : data})
+      toast("Redirect to payment Gateway...!");
+      stripePromise.redirectToCheckout({ sessionId: data });
+    } else {
+      toast("You have not Login!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    }
   };
 
   return (

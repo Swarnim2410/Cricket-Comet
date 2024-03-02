@@ -136,18 +136,17 @@ app.get("/product", async (req, res) => {
 
 /************PAYMENT GATEWAY ****************/
 
+//console.log(process.env.STRIPE_SECRET_KEY);
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.post("/payment", async (req, res) => {
-  //console.log(req.body);
-
   try {
     const params = {
       submit_type: "pay",
       mode: "payment",
       payment_method_types: ["card"],
-      billing_address_collection: "auto",
-      shipping_options: [{ shipping_rate: "shr_1OpqsoSHqSHRGIhr2QFRIa0q" }],
+      billing_address_collection: "required", // Set to "required" to ensure customer name and address are collected
 
       line_items: req.body.map((item) => {
         return {
@@ -155,25 +154,33 @@ app.post("/payment", async (req, res) => {
             currency: "inr",
             product_data: {
               name: item.name,
-              images: [item.image],
+              // images: [item.image]
             },
             unit_amount: item.price * 100,
           },
           adjustable_quantity: {
-            enable: true,
+            enabled: true,
             minimum: 1,
           },
           quantity: item.qty,
         };
       }),
+
       success_url: `${process.env.FRONTEND_URL}/success`,
       cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+    };
+
+    // Get customer email from request body (you may need to adjust this based on your frontend implementation)
+    const customerEmail = req.body[0].customer_email; // Assuming customer_email is associated with the first item in the list
+
+    if (customerEmail) {
+      params.customer_email = customerEmail;
     }
 
-    const session = await stripe.checkout.session.create(params);
+    const session = await stripe.checkout.sessions.create(params);
     res.status(200).json(session.id);
-  } catch (error) {
-    res.status(err.statusCode || 500).json(error.message);
+  } catch (err) {
+    res.status(err.statusCode || 500).json(err.message);
   }
 });
 

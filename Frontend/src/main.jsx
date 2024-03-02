@@ -17,6 +17,8 @@ import AddProduct from "./page/AddProduct.jsx";
 import Signup from "./page/Signup.jsx";
 import Cart from "./page/Cart.jsx";
 import DisplayCategory from "./page/DisplayCategory.jsx";
+import Success from './page/Success.jsx'
+import Cancel from "./page/Cancel.jsx";
 
 //redux imports -->
 import { store } from "./redux/index.jsx";
@@ -34,6 +36,8 @@ const router = createBrowserRouter(
       <Route path="signup" element={<Signup />} />
       <Route path="cart" element={<Cart />} />
       <Route path="/:category" element={<DisplayCategory />} />
+      <Route path="success" element={<Success />} />
+      <Route path="cancel" element={<Cancel />} />
     </Route>
   )
 );
