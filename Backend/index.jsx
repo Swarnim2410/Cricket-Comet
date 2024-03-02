@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
+const Stripe = require("stripe");
+
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
@@ -37,13 +39,14 @@ const userModel = mongoose.model("user", userSchema);
 //functions -->
 
 //main api -->
+
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
 //signup api -->
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { email } = req.body;
 
   try {
@@ -112,7 +115,7 @@ const productModel = mongoose.model("product", productSchema);
 //save a new product in database -->
 
 app.post("/addproduct", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   try {
     // creating a new user in database
     const data = new productModel(req.body);
@@ -131,5 +134,49 @@ app.get("/product", async (req, res) => {
   res.send(JSON.stringify(data));
 });
 
+/************PAYMENT GATEWAY ****************/
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+app.post("/payment", async (req, res) => {
+  //console.log(req.body);
+
+  try {
+    const params = {
+      submit_type: "pay",
+      mode: "payment",
+      payment_method_types: ["card"],
+      billing_address_collection: "auto",
+      shipping_options: [{ shipping_rate: "shr_1OpqsoSHqSHRGIhr2QFRIa0q" }],
+
+      line_items: req.body.map((item) => {
+        return {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: item.name,
+              images: [item.image],
+            },
+            unit_amount: item.price * 100,
+          },
+          adjustable_quantity: {
+            enable: true,
+            minimum: 1,
+          },
+          quantity: item.qty,
+        };
+      }),
+      success_url: `${process.env.FRONTEND_URL}/success`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+    }
+
+    const session = await stripe.checkout.session.create(params);
+    res.status(200).json(session.id);
+  } catch (error) {
+    res.status(err.statusCode || 500).json(error.message);
+  }
+});
+
 //running server -->
+
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));

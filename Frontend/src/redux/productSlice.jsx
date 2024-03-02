@@ -4,10 +4,12 @@ const initialState = {
   productList: [],
   cartItem: [],
 };
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    
     setDataProduct: (state, action) => {
       //console.log(action);
       state.productList = [...action.payload];

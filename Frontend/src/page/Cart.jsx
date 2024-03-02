@@ -3,20 +3,50 @@ import { useSelector } from "react-redux";
 import CartProduct from "../component/CartProduct";
 import { Link } from "react-router-dom";
 import { BsCartXFill } from "react-icons/bs";
+import { toast } from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const productCartItem = useSelector((state) => state.product.cartItem);
   //console.log(productCartItem);
 
-  //tatalprice and totalQuantity till now -->
+  //totalprice and totalQuantity till now -->
+
   const totalPrice = productCartItem.reduce(
     (acc, curr) => acc + parseInt(curr.total),
     0
   );
+
   const totalQty = productCartItem.reduce(
     (acc, curr) => acc + parseInt(curr.qty),
     0
   );
+
+  /*************PAYMENT WORK******************/
+
+  
+  const handlePayment = async () => {
+
+    const stripePromise = await loadStripe(
+      import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY
+    );
+
+    const res = await fetch(
+      `${import.meta.env.VITE_APP_SERVER_DOMAIN}/payment`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(productCartItem),
+      }
+    );
+    if (res.statusCode === 500) return;
+    const data = await res.json();
+    console.log(data);
+    toast("Redirecting to payment gateway..");
+    stripePromise.redirectToCheckout({sessionId : data})
+  };
 
   return (
     <>
@@ -26,34 +56,43 @@ const Cart = () => {
         </h2>
         {productCartItem[0] ? (
           <div className="my-4 flex gap-3">
+            {/* display cart items  */}
             <div className="w-full max-w-3xl ">
-              {/*display cart items*/}
-              {productCartItem.map((itr, index) => {
+              {productCartItem.map((el) => {
                 return (
                   <CartProduct
-                    key={index}
-                    id={itr._id}
-                    name={itr.name}
-                    image={itr.image}
-                    category={itr.category}
-                    qty={itr.qty}
-                    total={itr.total}
-                    price={itr.price}
+                    key={el._id}
+                    id={el._id}
+                    name={el.name}
+                    image={el.image}
+                    category={el.category}
+                    qty={el.qty}
+                    total={el.total}
+                    price={el.price}
                   />
                 );
               })}
             </div>
-            {/*total cart items*/}
-            <div className="w-full max-w-md bg-slate-500 ml-auto">
-              <h2 className="text-white p-2 text-lg">Summary</h2>
-              <div className="flex w-full py-2 text-lg border-b">
-                <p>Total Items : </p>
-                <p className="ml-auto w-32 font-bold">{totalQty}</p>
+
+            {/* total cart item  */}
+            <div className="w-full max-w-md  ml-auto">
+              <h2 className="bg-blue-500 text-white p-2 text-lg">Summary</h2>
+              <div className="flex w-full py-2 text-lg border-b text-white">
+                <p>Total Qty :</p>
+                <p className="ml-auto w-32 font-bold ">{totalQty}</p>
               </div>
-              <div className="flex w-full py-2 text-lg border-b">
-                <p>Your Cart Value : </p>
-                <p className="ml-auto w-32 font-bold">₹{totalPrice}</p>
+              <div className="flex w-full py-2 text-lg border-b text-white">
+                <p>Total Price</p>
+                <p className="ml-auto w-32 font-bold">
+                  <span className="text-red-500">₹</span> {totalPrice}
+                </p>
               </div>
+              <button
+                className="bg-red-500 w-full text-lg font-bold py-2 text-white"
+                onClick={handlePayment}
+              >
+                Payment
+              </button>
             </div>
           </div>
         ) : (
@@ -64,10 +103,7 @@ const Cart = () => {
                 Cart is empty
               </p>
               <div className="mt-4">
-                <Link
-                  to={`/menu`}
-                  className="text-blue-600 underline"
-                >
+                <Link to={`/menu`} className="text-blue-600 underline">
                   Click here to explore our products
                 </Link>
               </div>

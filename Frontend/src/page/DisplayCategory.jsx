@@ -21,7 +21,7 @@ const DisplayCategory = () => {
     (itr) => itr.category.toLowerCase() === category.toLowerCase()
   );
 
-  console.log(filteredData);
+  //console.log(filteredData);
 
   return (
     <div className="">
