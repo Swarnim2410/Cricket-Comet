@@ -106,10 +106,10 @@ const Header = () => {
                     Home
                   </Link>
                   <Link
-                    to={"menu/65d34caca0a9c77e770e912d"}
+                    to={"menu"}
                     className="font-medium px-1 py-1"
                   >
-                    Menu
+                    Items
                   </Link>
                   <Link to={"about"} className="font-medium px-2 py-1">
                     About
