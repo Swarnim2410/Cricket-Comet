@@ -6,20 +6,17 @@ addition of new products.
 
 Backend Environment variables :
 
-MONGO_URL : <mongoDB url>
-STRIPE_SECRET_KEY : <stripe secret key> 
-FRONTEND_URL : <frontend url>
+MONGO_URL : "mongoDB url"
+STRIPE_SECRET_KEY : "stripe secret key"
+FRONTEND_URL : "frontend url"
+start : npm run dev
+
+Frontend Environment variables :
+
+VITE_APP_SERVER_DOMAIN = "backend url"
+VITE_APP_ADMIN_EMAIL = "admin email"
+VITE_APP_STRIPE_PUBLIC_KEY = "stripe public key"
+start : npm start
 
 MY Backend URL : [https://backend-mern-kowt.onrender.com](https://cricket-comet-8n97.onrender.com/)
 MY Frontend URL : https://cricket-comet.vercel.app
-
-start : npm run dev
-Frontend Environment variables :
-
-VITE_APP_SERVER_DOMAIN = backend url
-
-VITE_APP_ADMIN_EMAIL = <admin email>
-
-VITE_APP_STRIPE_PUBLIC_KEY = <stripe public key>
-
-start : npm start
