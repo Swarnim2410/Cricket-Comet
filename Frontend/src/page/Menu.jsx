@@ -1,10 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AllProducts from "../component/AllProducts";
 import { addCartItem } from "../redux/productSlice";
 
 const Menu = () => {
+
+  const navigate = useNavigate()
+
   //getting id passed in params
   const productID = useParams().filterby;
   const productData = useSelector((state) => state.product.productList);
@@ -13,9 +16,9 @@ const Menu = () => {
   const productDisplay = productData.filter((itr) => itr._id === productID)[0];
   //console.log(productDisplay);
 
+
   /* REDUX PART */
 
-  
   const dispatch = useDispatch();
   const handleAddCartProduct = (itr) => {
     dispatch(
@@ -26,6 +29,12 @@ const Menu = () => {
   if (!productDisplay) {
     return <div>Loading...</div>;
   }
+
+  const handleBuy = () => {
+    dispatch(addCartItem(productDisplay));
+    navigate("/cart")
+  }
+
   return (
     <div className="p-2 md:p-4">
       <div className="w-full max-w-4xl bg-white m-auto md:flex">
@@ -47,14 +56,15 @@ const Menu = () => {
           <div className="flex gap-3">
             <button
               type="button"
-              class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              onClick={handleBuy}
+              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             >
               Buy
             </button>
             <button
               type="button"
               onClick={handleAddCartProduct}
-              class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             >
               Add to Cart
             </button>

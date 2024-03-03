@@ -16,7 +16,7 @@ export const productSlice = createSlice({
     },
 
     addCartItem: (state, action) => {
-      console.log(action.payload);
+      //console.log(action.payload);
       const check = state.cartItem.some(
         (itr) => itr._id === action.payload._id
       );

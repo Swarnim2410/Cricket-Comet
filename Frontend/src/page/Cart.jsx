@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import CartProduct from "../component/CartProduct";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsCartXFill } from "react-icons/bs";
 import { toast } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
+
+  const navigate = useNavigate()
   const user = useSelector((state) => state.user);
   const productCartItem = useSelector((state) => state.product.cartItem);
   //console.log(productCartItem);
