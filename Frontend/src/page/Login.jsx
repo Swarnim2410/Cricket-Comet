@@ -137,12 +137,13 @@ const Login = () => {
             </button>
             <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Not registered?
-              <a
+              
+              <Link
+                to="/signup"
                 className="ml-1 text-blue-700 hover:underline dark:text-blue-500"
-                href="/signup"
               >
                 Create an account.
-              </a>
+              </Link>
             </div>
           </form>
         </div>
