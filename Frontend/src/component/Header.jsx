@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ImCart } from "react-icons/im";
 import { HiUserCircle } from "react-icons/hi2";
-import Burger from "../assest/burger-category.png";
 import { useDispatch, useSelector } from "react-redux";
+import { FaHome } from "react-icons/fa";
 import { logoutRedux } from "../redux/userSlice";
 import { toast } from "react-hot-toast";
 const Header = () => {
@@ -36,8 +36,8 @@ const Header = () => {
     <header className="fixed shadow-lg w-full h-16 z-50">
       <div className="flex items-center h-full justify-between bg-slate-400">
         <Link to={""}>
-          <div className="h-10 px-3">
-            <img src={Burger} className="h-full" />
+          <div className="h-16 px-3">
+            <FaHome className="h-full w-1/2" />
           </div>
         </Link>
 
@@ -105,10 +105,7 @@ const Header = () => {
                   <Link to={""} className="font-bold px-2 py-1">
                     Home
                   </Link>
-                  <Link
-                    to={"menu"}
-                    className="font-medium px-1 py-1"
-                  >
+                  <Link to={"menu"} className="font-medium px-1 py-1">
                     Items
                   </Link>
                   <Link to={"about"} className="font-medium px-2 py-1">
