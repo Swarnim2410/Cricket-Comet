@@ -119,14 +119,7 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            <div className="flex items-start mb-6">
-              <a
-                className="ml-auto text-sm text-blue-700 dark:text-blue-500 hover:underline"
-                href="/htmlForgot-password/"
-              >
-                Forgot Password?
-              </a>
-            </div>
+            
             <button
               className="text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 bg-blue-700"
               type="submit"
