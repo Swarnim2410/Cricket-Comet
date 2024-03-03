@@ -191,12 +191,12 @@ const Signup = () => {
             <div className="ml-3 text-sm">
               <label className="font-medium text-gray-900 dark:text-white">
                 I accept the
-                <a
+                <Link
+                  to="/terms"
                   className="ml-1 text-blue-700 dark:text-blue-500 hover:underline"
-                  href="/terms-and-conditions/"
                 >
                   Terms and Conditions
-                </a>
+                </Link>
               </label>
             </div>
           </div>

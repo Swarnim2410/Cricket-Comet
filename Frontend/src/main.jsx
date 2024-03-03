@@ -17,12 +17,13 @@ import AddProduct from "./page/AddProduct.jsx";
 import Signup from "./page/Signup.jsx";
 import Cart from "./page/Cart.jsx";
 import DisplayCategory from "./page/DisplayCategory.jsx";
-import Success from './page/Success.jsx'
+import Success from "./page/Success.jsx";
 import Cancel from "./page/Cancel.jsx";
 
 //redux imports -->
 import { store } from "./redux/index.jsx";
 import { Provider } from "react-redux";
+import TermsConditions from "./page/TermsConditions.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       <Route path="/:category" element={<DisplayCategory />} />
       <Route path="success" element={<Success />} />
       <Route path="cancel" element={<Cancel />} />
+      <Route path="terms" element={<TermsConditions />} />
     </Route>
   )
 );
