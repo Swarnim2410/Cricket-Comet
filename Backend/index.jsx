@@ -5,6 +5,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -60,7 +61,17 @@ app.post("/signup", async (req, res) => {
       res.send({ message: "Email-id is already registered", redirect: false });
     } else {
       // creating a new user in database
-      const data = new userModel(req.body);
+      const salt = bcrypt.genSaltSync(10);
+      const hash = await bcrypt.hash(req.body.password, salt);
+      // console.log(hash);
+      const newobj = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash,
+      };
+      console.log(newobj);
+      const data = new userModel(newobj);
       await data.save();
       res.send({ message: "Registration successful", redirect: true });
     }
@@ -78,9 +89,9 @@ app.post("/login", async (req, res) => {
   try {
     // finding email in the database using await
     const result = await userModel.findOne({ email: email });
-    ``;
     if (result) {
-      if (result.password === password) {
+      const isMatched = await bcrypt.compare(password, result.password);
+      if (isMatched) {
         const data = {
           _id: result._id,
           firstName: result.firstName,
