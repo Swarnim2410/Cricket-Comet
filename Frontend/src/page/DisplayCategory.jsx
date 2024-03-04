@@ -8,16 +8,14 @@ const DisplayCategory = () => {
 
   var currentUrl = window.location.href;
   var x = currentUrl.toString();
-  console.log(x);
+  //console.log(x);
   const urlParts = x.slice("http://".length).split("/");
-  console.log(urlParts);
-  console.log(urlParts.length);
+  // console.log(urlParts);
+  // console.log(urlParts.length);
   var category = urlParts[1];
-  if(urlParts.length==3)
-  {
-    category = urlParts[2]
+  if (urlParts.length == 3) {
+    category = urlParts[2];
   }
-  
   //console.log(category);
 
   // const [dataFilter, setDataFilter] = useState([]);
