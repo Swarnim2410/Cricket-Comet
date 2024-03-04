@@ -64,8 +64,33 @@ const AllProducts = ({ heading }) => {
     });
   };
 
+
+  const closeAlert = () => {
+    var alertDiv = document.getElementById("alertDiv");
+    alertDiv.parentNode.removeChild(alertDiv);
+  };
+
   return (
     <div className="my-5">
+      <div
+        id="alertDiv"
+        data-dismissible="alert"
+        role="alert"
+        className="mb-4 md:mb-6 font-regular relative flex w-full max-w-screen-lg mx-auto rounded-lg bg-gradient-to-tr from-purple-600 to-purple-400 px-4 py-4 text-base text-black font-bold"
+      >
+        <div className="ml-3 mr-12">
+          Filter by your own preferences
+        </div>
+        <button
+          data-dismissible-target="alert"
+          onClick={closeAlert}
+          className="!absolute top-3 right-3 select-none rounded-lg py-2 px-4 text-center align-middle font-sans text-xs  uppercase text-red-700 transition-all hover:bg-red-400 active:bg-white/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none font-bold"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+
       {/* display all categories*/}
       <p className="font-bold text-2xl text-slate-300 mb-4">{heading}</p>
       <div className="flex gap-4 justify-center overflow-scroll scrollbar-none">

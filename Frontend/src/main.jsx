@@ -24,6 +24,7 @@ import Cancel from "./page/Cancel.jsx";
 import { store } from "./redux/index.jsx";
 import { Provider } from "react-redux";
 import TermsConditions from "./page/TermsConditions.jsx";
+import AllProducts from "./component/AllProducts.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       <Route path="success" element={<Success />} />
       <Route path="cancel" element={<Cancel />} />
       <Route path="terms" element={<TermsConditions />} />
+      <Route path = "menu" element={<AllProducts/>}/>
     </Route>
   )
 );
