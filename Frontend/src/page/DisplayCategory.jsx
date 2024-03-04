@@ -8,12 +8,13 @@ const DisplayCategory = () => {
 
   var currentUrl = window.location.href;
   var x = currentUrl.toString();
+  console.log(x);
   const urlParts = x.slice("http://".length).split("/");
   const category = urlParts[1];
-  console.log(category);
+  //console.log(category);
 
-  const [dataFilter, setDataFilter] = useState([]);
-  const [filterBy, setFilterBy] = useState("");
+  // const [dataFilter, setDataFilter] = useState([]);
+  // const [filterBy, setFilterBy] = useState("");
 
   //useEffect is used to set initial value to allProducts and it will run whenever productData changes
 

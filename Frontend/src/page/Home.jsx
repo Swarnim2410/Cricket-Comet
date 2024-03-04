@@ -18,7 +18,7 @@ const Home = () => {
   const navigate = useNavigate()
   const productData = useSelector((state) => state.product.productList);
 
-  // console.log(productData);
+  //console.log(productData);
 
   //to display first 4 data in home page-->
   const homeProductList = productData.slice(0, 4);
