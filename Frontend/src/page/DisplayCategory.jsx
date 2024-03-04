@@ -10,6 +10,7 @@ const DisplayCategory = () => {
   var x = currentUrl.toString();
   console.log(x);
   const urlParts = x.slice("http://".length).split("/");
+  console.log(urlParts);
   const category = urlParts[1];
   //console.log(category);
 
