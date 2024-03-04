@@ -70,7 +70,7 @@ app.post("/signup", async (req, res) => {
         email: req.body.email,
         password: hash,
       };
-      console.log(newobj);
+      //console.log(newobj);
       const data = new userModel(newobj);
       await data.save();
       res.send({ message: "Registration successful", redirect: true });
