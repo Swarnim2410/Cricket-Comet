@@ -11,7 +11,13 @@ const DisplayCategory = () => {
   console.log(x);
   const urlParts = x.slice("http://".length).split("/");
   console.log(urlParts);
-  const category = urlParts[1];
+  console.log(urlParts.length);
+  var category = urlParts[1];
+  if(urlParts.length==3)
+  {
+    category = urlParts[2]
+  }
+  
   //console.log(category);
 
   // const [dataFilter, setDataFilter] = useState([]);
