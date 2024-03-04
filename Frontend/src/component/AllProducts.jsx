@@ -101,9 +101,7 @@ const AllProducts = ({ heading }) => {
             role="alert"
             className="mb-4 md:mb-6 font-regular relative flex w-full max-w-screen-lg mx-auto rounded-lg bg-gradient-to-tr from-red-600 to-red-400 px-4 py-4 text-base text-black font-bold"
           >
-            <div className="ml-3 mr-12">
-              Please wait for a moment..
-            </div>
+            <div className="ml-3 mr-12">Please wait for a moment..</div>
             <button
               data-dismissible-target="alert"
               onClick={closeAlert}

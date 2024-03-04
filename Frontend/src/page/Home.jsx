@@ -91,17 +91,19 @@ const Home = () => {
             <span className="text-yellow-500">your home</span>
           </h2>
           <p className="py-3 text-base">
-            Cricket is a bat-and-ball game played between two teams of eleven
-            players on a field at the centre of which is a 22-yard pitch with a
-            wicket at each end, each comprising two bails balanced on three
-            stumps. Two players from the batting team the striker and nonstriker
-            stand in front of either wicket, with one player from the fielding
-            team bowling the ball towards the striker's wicket from the opposite
-            end of the pitch. The striker's goal is to hit the bowled ball and
-            then switch places with the nonstriker, with the batting team
-            scoring one run for each exchange. Runs are also scored when the
-            ball reaches or crosses the boundary of the field or when the ball
-            is bowled illegally.
+            Welcome to Cricket Comet, the premier destination for cricket
+            enthusiasts! Dive into a world of excellence with our exceptional
+            range of cricket gear. From finely crafted bats that deliver power
+            and precision to top-tier protective equipment and stylish apparel,
+            we cater to players of all skill levels. Our commitment to quality
+            ensures that each product is designed to enhance your performance on
+            the field. Enjoy the convenience of fast and reliable shipping,
+            coupled with expert advice from our passionate team. Join our
+            vibrant cricket community, where like-minded enthusiasts share tips
+            and stories. At Cricket Comet, we believe in combining technology
+            with tradition to create cricket gear that empowers every player.
+            Play your best game and embrace the spirit of cricket with Cricket
+            Comet – Where Every Innings Counts!
           </p>
           <Link
             to="/cart"

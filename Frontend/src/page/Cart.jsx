@@ -50,7 +50,7 @@ const Cart = () => {
       toast("Redirect to payment Gateway...!");
       stripePromise.redirectToCheckout({ sessionId: data });
     } else {
-      toast("You have not Login!");
+      toast("Please login to your account!");
       setTimeout(() => {
         navigate("/login");
       }, 1000);
@@ -86,7 +86,7 @@ const Cart = () => {
 
             {/* total cart item  */}
             <div className="w-full max-w-md ml-auto">
-              <h2 className="bg-blue-500 text-white p-2 text-lg">Summary</h2>
+              <h2 className="bg-blue-500 text-white p-2 text-lg">Total</h2>
               <div className="flex w-full py-2 text-lg border-b text-white">
                 <p>Total Qty :</p>
                 <p className="ml-auto w-32 font-bold ">{totalQty}</p>
@@ -101,7 +101,7 @@ const Cart = () => {
                 className="bg-red-500 w-full text-lg font-bold py-2 text-white"
                 onClick={handlePayment}
               >
-                Payment
+                Pay
               </button>
             </div>
           </div>

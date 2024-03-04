@@ -3,13 +3,17 @@ import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { deleteCartItem, increaseQty,decreaseQty } from "../redux/productSlice";
+import {
+  deleteCartItem,
+  increaseQty,
+  decreaseQty,
+} from "../redux/productSlice";
 const CartProduct = ({ id, name, price, image, qty, total, category }) => {
   const dispatch = useDispatch();
 
   const deleteTheCartItem = () => {
     dispatch(deleteCartItem(id));
-  }
+  };
 
   const increaseQuantity = () => {
     dispatch(increaseQty(id));
@@ -18,6 +22,8 @@ const CartProduct = ({ id, name, price, image, qty, total, category }) => {
   const decreaseQuantity = () => {
     dispatch(decreaseQty(id));
   };
+
+
   return (
     <div className="p-2 flex gap-4 rounded border-2 border-slate-600">
       <div className="bg-white p-3 rounded overflow-hidden h-1/2 w-1/2">
