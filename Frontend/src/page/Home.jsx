@@ -1,7 +1,6 @@
 import React from "react";
 import { RiEBike2Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { GrNext } from "react-icons/gr";
 import { BiSolidCricketBall } from "react-icons/bi";
 import { AiFillSafetyCertificate } from "react-icons/ai";
@@ -69,20 +68,20 @@ const Home = () => {
     <div className="text-white p-2 md:p-4">
       <div className="md:flex gap-4 py-2">
         <div className="md:w-1/2">
-          <div className="flex gap-2">
-            <div className="flex gap-2 bg-slate-300 px-7 md:px-2 py-1 items-center rounded-full">
+          <div className="flex gap-2 justify-evenly">
+            <div className="flex gap-2 bg-slate-300 px-5 lg:px-2 py-1 items-center rounded-full">
               <p className="text-sm font-medium text-black">
                 Safe and Fast delievery
               </p>
               <p className="h-4 text-black">{<RiEBike2Fill />}</p>
             </div>
-            <div className="flex gap-2 bg-slate-300 px-7 md:px-2 py-1 items-center rounded-full">
+            <div className="flex gap-2 bg-slate-300 px-5 lg:px-2 py-1 items-center rounded-full">
               <p className="text-sm font-medium text-black">
                 Best in quality products
               </p>
               <p className="h-4 text-black">{<BiSolidCricketBall />}</p>
             </div>
-            <div className="flex gap-2 bg-slate-300  px-7 md:px-2 py-1 items-center rounded-full">
+            <div className="hidden md:flex gap-2 bg-slate-300 px-5 lg:px-2 py-1 items-center rounded-full">
               <p className="text-sm font-medium text-black">Secure Checkouts</p>
               <p className="h-4 text-black">{<AiFillSafetyCertificate />}</p>
             </div>
@@ -104,7 +103,10 @@ const Home = () => {
             ball reaches or crosses the boundary of the field or when the ball
             is bowled illegally.
           </p>
-          <Link to = "/cart" className="mt-3 relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <Link
+            to="/cart"
+            className="mt-3 relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+          >
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               Order Now
             </span>
