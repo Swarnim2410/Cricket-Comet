@@ -45,7 +45,7 @@ const Cart = () => {
       if (res.statusCode === 500) return;
 
       const data = await res.json();
-      console.log(data);
+      //console.log(data);
 
       toast("Redirect to payment Gateway...!");
       stripePromise.redirectToCheckout({ sessionId: data });
