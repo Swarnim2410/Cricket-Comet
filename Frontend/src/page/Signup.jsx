@@ -56,7 +56,7 @@ const Signup = () => {
             // Handle the response from the backend
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               toast(data.message);
               if(data.redirect){
                 setTimeout(() => {
@@ -94,7 +94,7 @@ const Signup = () => {
               </label>
               <input
                 id="firstName"
-                placeholder="Swarnim"
+                placeholder="First Name"
                 //name se hi submit ho raha
                 name="firstName"
                 type="text"
@@ -108,7 +108,7 @@ const Signup = () => {
                 Last name
               </label>
               <input
-                placeholder="Gupta"
+                placeholder="Last Name"
                 name="lastName"
                 type="text"
                 id="lastName"

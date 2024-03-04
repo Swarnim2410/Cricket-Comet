@@ -27,10 +27,37 @@ const DisplayCategory = () => {
     (itr) => itr.category.toLowerCase() === category.toLowerCase()
   );
 
+  const closeAlert = () => {
+    var alertDiv = document.getElementById("alertDiv");
+    alertDiv.parentNode.removeChild(alertDiv);
+  };
   //console.log(filteredData);
 
   return (
     <div className="">
+      <div className="text-slate-300 text-center pt-2 md:pt-4 font-bold text-2xl pb-4 md:pb-6">
+        Find your favorite cricket {category} right here
+      </div>
+
+      <div
+        id="alertDiv"
+        data-dismissible="alert"
+        role="alert"
+        className="font-regular relative flex w-full max-w-screen-lg mx-auto rounded-lg bg-gradient-to-tr from-green-600 to-green-400 px-4 py-4 text-base text-black font-bold"
+      >
+        <div className="ml-3 mr-12">
+          Click on any product to view more details
+        </div>
+        <button
+          data-dismissible-target="alert"
+          onClick={closeAlert}
+          className="!absolute top-3 right-3 select-none rounded-lg py-2 px-4 text-center align-middle font-sans text-xs  uppercase text-red-700 transition-all hover:bg-red-400 active:bg-white/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none font-bold"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {filteredData.map((itr) => {
           return (
@@ -46,7 +73,6 @@ const DisplayCategory = () => {
           );
         })}
       </div>
-      <AllProducts heading={"Explore more products"} />
     </div>
   );
 };
