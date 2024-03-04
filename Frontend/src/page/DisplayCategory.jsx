@@ -10,7 +10,7 @@ const DisplayCategory = () => {
   var x = currentUrl.toString();
   const urlParts = x.slice("http://".length).split("/");
   const category = urlParts[1];
-  //console.log(category);
+  console.log(category);
 
   const [dataFilter, setDataFilter] = useState([]);
   const [filterBy, setFilterBy] = useState("");
