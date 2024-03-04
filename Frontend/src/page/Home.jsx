@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { GrNext } from "react-icons/gr";
 import { BiSolidCricketBall } from "react-icons/bi";
-import { BsDoorOpenFill } from "react-icons/bs";
+import { AiFillSafetyCertificate } from "react-icons/ai";
 import { GrPrevious } from "react-icons/gr";
 import HomeCard from "../component/HomeCard.jsx";
 import CardFeature from "../component/CardFeature.jsx";
@@ -14,8 +14,7 @@ import AllProducts from "../component/AllProducts.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const productData = useSelector((state) => state.product.productList);
 
   //console.log(productData);
@@ -71,23 +70,21 @@ const Home = () => {
       <div className="md:flex gap-4 py-2">
         <div className="md:w-1/2">
           <div className="flex gap-2">
-            <div className="flex gap-2 bg-slate-300 w-48 px-2 py-1 items-center rounded-full">
+            <div className="flex gap-2 bg-slate-300 px-7 md:px-2 py-1 items-center rounded-full">
               <p className="text-sm font-medium text-black">
                 Safe and Fast delievery
               </p>
               <p className="h-4 text-black">{<RiEBike2Fill />}</p>
             </div>
-            <div className="flex gap-2 bg-slate-300 w-48 px-2 py-1 items-center rounded-full">
+            <div className="flex gap-2 bg-slate-300 px-7 md:px-2 py-1 items-center rounded-full">
               <p className="text-sm font-medium text-black">
                 Best in quality products
               </p>
               <p className="h-4 text-black">{<BiSolidCricketBall />}</p>
             </div>
-            <div className="flex gap-2 bg-slate-300 w-48 px-2 py-1 items-center rounded-full">
-              <p className="text-sm font-medium text-black">
-                Everything at doorstep
-              </p>
-              <p className="h-4 text-black">{<BsDoorOpenFill />}</p>
+            <div className="flex gap-2 bg-slate-300  px-7 md:px-2 py-1 items-center rounded-full">
+              <p className="text-sm font-medium text-black">Secure Checkouts</p>
+              <p className="h-4 text-black">{<AiFillSafetyCertificate />}</p>
             </div>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold py-3">

@@ -71,6 +71,9 @@ const AllProducts = ({ heading }) => {
   };
 
   return (
+
+    /*Alert box*/
+
     <div className="my-5">
       <div
         id="alertDiv"
@@ -79,7 +82,7 @@ const AllProducts = ({ heading }) => {
         className="mb-4 md:mb-6 font-regular relative flex w-full max-w-screen-lg mx-auto rounded-lg bg-gradient-to-tr from-purple-600 to-purple-400 px-4 py-4 text-base text-black font-bold"
       >
         <div className="ml-3 mr-12">
-          Filter by your own preferences
+          Filter by your own preferences below
         </div>
         <button
           data-dismissible-target="alert"
