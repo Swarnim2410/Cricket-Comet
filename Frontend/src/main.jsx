@@ -26,6 +26,7 @@ import { Provider } from "react-redux";
 import TermsConditions from "./page/TermsConditions.jsx";
 import AllProducts from "./component/AllProducts.jsx";
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>

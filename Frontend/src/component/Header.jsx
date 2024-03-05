@@ -6,10 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaHome } from "react-icons/fa";
 import { logoutRedux } from "../redux/userSlice";
 import { toast } from "react-hot-toast";
+import { useEffect } from "react";
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const loggedIn = window.localStorage.getItem("email");
+  //console.log(loggedIn);
   //fetching data from redux-store (userData will contain details if user is logged in else it will be empty )-->
 
   const userData = useSelector((state) => state.user);
@@ -18,12 +21,17 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    window.localStorage.removeItem("email");
+    window.localStorage.removeItem("firstName");
+    window.localStorage.removeItem("lastName");
+    window.localStorage.removeItem("_id");
     toast("Back to home page");
     dispatch(logoutRedux());
     setTimeout(() => {
       navigate("/");
     }, 1000);
   };
+
   const showMeDropdown = () => {
     setShowDropdown((pre) => !pre);
   };
@@ -86,14 +94,17 @@ const Header = () => {
                     Add Product
                   </Link>
                 )}
-                {userData.email ? (
+
+                {loggedIn ? (
+                  // Show Logout option if login is true
                   <p
-                    className="whitespace-nowrap cursor-pointer px-2"
+                    className="whitespace-nowrap cursor-pointer px-2 text-black font-bold"
                     onClick={handleLogout}
                   >
                     Logout
                   </p>
                 ) : (
+                  // Show Login/Signup option if login is false
                   <Link
                     to={"login"}
                     className="whitespace-nowrap cursor-pointer font-bold text-black"
@@ -101,6 +112,7 @@ const Header = () => {
                     Login/Signup
                   </Link>
                 )}
+
                 <nav className=" text-black  flex flex-col md:hidden">
                   <Link to={""} className="font-bold px-2 py-1">
                     Home

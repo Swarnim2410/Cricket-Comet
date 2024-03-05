@@ -48,8 +48,13 @@ const Login = () => {
         toast(responseData.message);
 
         if (responseData.redirect) {
-          dispatch(loginRedux(responseData));
+          //console.log(responseData.data);
+          window.localStorage.setItem("email", responseData.data.email);
+          window.localStorage.setItem("firstName", responseData.data.firstName);
+          window.localStorage.setItem("lastName", responseData.data.lastName);
+          window.localStorage.setItem("_id", responseData.data._id);
 
+          dispatch(loginRedux(responseData));
           // Navigate after state has been updated
           setTimeout(() => {
             navigate("/");
@@ -119,7 +124,7 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            
+
             <button
               className="text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 bg-blue-700"
               type="submit"
@@ -130,7 +135,6 @@ const Login = () => {
             </button>
             <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Not registered?
-              
               <Link
                 to="/signup"
                 className="ml-1 text-blue-700 hover:underline dark:text-blue-500"

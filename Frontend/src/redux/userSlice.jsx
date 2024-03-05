@@ -14,7 +14,7 @@ export const userSlice = createSlice({
       
       //action.payload contains data coming from the server
       //action.payload.data contains user details..
-    //   console.log(action.payload.data);
+      //console.log(action.payload.data);
 
     //ab hame initialState me data set karna hai jo state.{property} se hi set hota hai..
       state._id = action.payload.data._id;
