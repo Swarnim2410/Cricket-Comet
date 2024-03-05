@@ -9,52 +9,45 @@ import { loginRedux } from "./redux/userSlice.jsx";
 
 function App() {
   const dispatch = useDispatch();
-  //to get the product data from redux-->
+
+  // To get the product data from redux
   const productData = useSelector((state) => state.product);
 
-  //fetching all products from 5000/product -->
-
   useEffect(() => {
+    // Fetch product data and dispatch setDataProduct action
     (async () => {
       const res = await fetch(
         `${import.meta.env.VITE_APP_SERVER_DOMAIN}/product`
       );
       const resData = await res.json();
-      //console.log(resData);
       dispatch(setDataProduct(resData));
     })();
-  }, []);
 
-  /*setting user details from local storage to redux*/
-
-  const email = window.localStorage.getItem("email");
-  const firstName = window.localStorage.getItem("firstName");
-  const lastName = window.localStorage.getItem("lastName");
-  const _id = window.localStorage.getItem("_id");
-  var dataobj = {
-    data : {
-    firstName: firstName,
-    lastName: lastName,
-    _id: _id,
-    email: email,
-    }
-  };
-  if (email === null) {
-    dataobj = {
-      data : {
-      firstName: "",
-      lastName: "",
-      _id: "",
-      email: "",
-      }
+    // Set user details from local storage to redux
+    const email = window.localStorage.getItem("email");
+    const firstName = window.localStorage.getItem("firstName");
+    const lastName = window.localStorage.getItem("lastName");
+    const _id = window.localStorage.getItem("_id");
+    var dataobj = {
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        _id: _id,
+        email: email,
+      },
     };
-  }
-
-  dispatch(loginRedux(dataobj));
-
-  //console.log(data);
-
-  //app.jsx starts -->
+    if (email === null) {
+      dataobj = {
+        data: {
+          firstName: "",
+          lastName: "",
+          _id: "",
+          email: "",
+        },
+      };
+    }
+    dispatch(loginRedux(dataobj));
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   return (
     <>
@@ -68,4 +61,5 @@ function App() {
     </>
   );
 }
+
 export default App;

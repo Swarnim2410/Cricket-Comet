@@ -119,11 +119,10 @@ const Home = () => {
 
         <div className="md:w-1/2 px-4 py-4 md:flex md:flex-wrap gap-6">
           {homeProductList[0]
-            ? homeProductList.map((itr, index) => (
-                <div key={index} className="mb-4">
+            ? homeProductList.map((itr) => (
+                <div key={itr._id} className="mb-4">
                   <HomeCard
                     name={itr.name}
-                    key={itr._id}
                     id={itr._id}
                     image={itr.image}
                     price={itr.price}
@@ -133,10 +132,10 @@ const Home = () => {
                 </div>
               ))
             : loadingArray.map((itr, index) => (
-              <div className="mb-4">
-                <HomeCardNull key={index} />
+                <div key={index} className="mb-4">
+                  <HomeCardNull />
                 </div>
-            ))}
+              ))}
         </div>
       </div>
 
