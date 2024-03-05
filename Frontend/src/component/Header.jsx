@@ -10,6 +10,7 @@ import { useEffect } from "react";
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const loggedIn = window.localStorage.getItem("email");
   //console.log(loggedIn);
@@ -66,6 +67,35 @@ const Header = () => {
             <Link to={"contact"} className="font-medium">
               Contact
             </Link>
+            <div className="font-medium">
+              {userData.email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
+                <div className="relative" x-data="{ open: false }">
+                  <div
+                    className="whitespace-nowrap cursor-pointer"
+                    onClick={() => setOpen(!open)}
+                  >
+                    Manage Items
+                  </div>
+                  {open && (
+                    <div
+                      className="absolute mt-2 w-32 bg-white rounded-lg shadow-md"
+                      onClick={() => setOpen(false)}
+                    >
+                      <Link to="/addproduct"
+                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
+                      >
+                        Add New Item
+                      </Link>
+                      <Link to = ""
+                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
+                      >
+                        Edit Item
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </nav>
           <div className="text-2xl relative cursor-pointer text-blue-700 hover:text-blue-800">
             <Link to={"cart"}>
@@ -86,35 +116,49 @@ const Header = () => {
             </div>
             {showDropdown && (
               <div className="bg-slate-600 absolute top-18 right-1.5 py-2 px-4 shadow drop-shadow-md flex flex-col min-w-[120px] text-center">
-                {userData.email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
-                  <Link
-                    to={"addproduct"}
-                    className="whitespace-nowrap cursor-pointer "
-                  >
-                    Add Product
-                  </Link>
-                )}
+                <div className="py-1">
+                  {loggedIn ? (
+                    // Show Logout option if loggedIn is true
+                    <p
+                      className="whitespace-nowrap cursor-pointer  text-black font-bold px-2"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </p>
+                  ) : (
+                    <Link
+                      to={"login"}
+                      className="whitespace-nowrap cursor-pointer font-bold text-black"
+                    >
+                      Login/Signup
+                    </Link>
+                  )}
+                </div>
 
-                {loggedIn ? (
-                  // Show Logout option if login is true
-                  <p
-                    className="whitespace-nowrap cursor-pointer px-2 text-black font-bold"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </p>
-                ) : (
-                  // Show Login/Signup option if login is false
-                  <Link
-                    to={"login"}
-                    className="whitespace-nowrap cursor-pointer font-bold text-black"
-                  >
-                    Login/Signup
-                  </Link>
-                )}
-
-                <nav className=" text-black  flex flex-col md:hidden">
-                  <Link to={""} className="font-bold px-2 py-1">
+                <nav className=" text-black  flex flex-col md:hidden rounded-lg">
+                  <div className="font-medium px-2 py-1">
+                    {userData.email ===
+                      import.meta.env.VITE_APP_ADMIN_EMAIL && (
+                      <Link
+                        to={"addproduct"}
+                        className="whitespace-nowrap cursor-pointer "
+                      >
+                        Add Product
+                      </Link>
+                    )}
+                  </div>
+                  <div className="font-medium px-2 py-1">
+                    {userData.email ===
+                      import.meta.env.VITE_APP_ADMIN_EMAIL && (
+                      <Link
+                        to={"addproduct"}
+                        className="whitespace-nowrap cursor-pointer "
+                      >
+                        Edit Product
+                      </Link>
+                    )}
+                  </div>
+                  <Link to={""} className="font-medium px-2 py-1">
                     Home
                   </Link>
                   <Link to={"menu"} className="font-medium px-1 py-1">

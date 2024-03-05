@@ -45,7 +45,11 @@ const Login = () => {
         const responseData = await response.json();
         //console.log(responseData);
 
-        toast(responseData.message);
+        if (responseData.redirect && (responseData.data.email === import.meta.env.VITE_APP_ADMIN_EMAIL)) {
+          toast("Admin login is successfull!!");
+        } else {
+          toast(responseData.message);
+        }
 
         if (responseData.redirect) {
           //console.log(responseData.data);
