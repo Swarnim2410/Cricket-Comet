@@ -9,7 +9,6 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    
     setDataProduct: (state, action) => {
       //console.log(action);
       state.productList = [...action.payload];
@@ -54,7 +53,7 @@ export const productSlice = createSlice({
     },
     decreaseQty: (state, action) => {
       const index = state.cartItem.findIndex((el) => el._id === action.payload);
-      console.log(index);
+      //console.log(index);
       let qty = state.cartItem[index].qty;
       let qtyTotal = 1;
       if (qty > 1) {

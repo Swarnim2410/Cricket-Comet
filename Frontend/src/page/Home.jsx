@@ -132,9 +132,11 @@ const Home = () => {
                   />
                 </div>
               ))
-            : loadingArray.map((itr, index) => {
-                return <HomeCardNull key={index} />;
-              })}
+            : loadingArray.map((itr, index) => (
+              <div className="mb-4">
+                <HomeCardNull key={index} />
+                </div>
+            ))}
         </div>
       </div>
 

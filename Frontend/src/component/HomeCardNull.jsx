@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const HomeCardNull = ({ name, image, price, category, description }) => {
   return (
@@ -10,4 +10,4 @@ const HomeCardNull = ({ name, image, price, category, description }) => {
   );
 };
 
-export default HomeCardNull
+export default HomeCardNull;
