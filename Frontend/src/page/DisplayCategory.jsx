@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AllProducts from "../component/AllProducts";
 import { useSelector } from "react-redux";
 import CardFeature from "../component/CardFeature";
+import { Link } from "react-router-dom";
 
 const DisplayCategory = () => {
   const productData = useSelector((state) => state.product.productList);
@@ -17,6 +18,25 @@ const DisplayCategory = () => {
     category = urlParts[2];
   }
   //console.log(category);
+
+  const categoryList = [
+    ...new Set(productData.map((itr) => itr.category)),
+  ].sort();
+
+  var presentCategory = false;
+  if (categoryList.includes(category)) {
+    presentCategory = true;
+  }
+
+  //console.log(presentCategory);
+
+  if (!presentCategory) {
+    return (
+      <div className="text-blue-600 underline text-center pt-2">
+        <Link to="/">Go Back to Home Page</Link>
+      </div>
+    );
+  }
 
   // const [dataFilter, setDataFilter] = useState([]);
   // const [filterBy, setFilterBy] = useState("");
