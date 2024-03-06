@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 
+/* for all the admin works */
+
 const Restricted = () => {
   const access = window.localStorage.getItem("access");
   if (access) {
