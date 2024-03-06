@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaHome } from "react-icons/fa";
 import { logoutRedux } from "../redux/userSlice";
 import { toast } from "react-hot-toast";
-import { useEffect } from "react";
+import { FaCaretDown } from "react-icons/fa";
+import { FaCaretUp } from "react-icons/fa";
+
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -67,27 +69,35 @@ const Header = () => {
             <Link to={"contact"} className="font-medium">
               Contact
             </Link>
+
+            {/* we will only show dropdown on clicking */}
+
+            {/* Also we will show manage items only to admin */}
             <div className="font-medium">
               {userData.email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
                 <div className="relative" x-data="{ open: false }">
-                  <div
-                    className="whitespace-nowrap cursor-pointer"
-                    onClick={() => setOpen(!open)}
-                  >
-                    Manage Items
+                  <div className="flex" onClick={() => setOpen(!open)}>
+                    <div className="whitespace-nowrap cursor-pointer">
+                      Manage Items
+                    </div>
+                    <div className="cursor-pointer flex items-center px-0.5">
+                      {!open ? <FaCaretDown /> : <FaCaretUp />}
+                    </div>
                   </div>
                   {open && (
                     <div
                       className="absolute mt-2 w-32 bg-white rounded-lg shadow-md"
                       onClick={() => setOpen(false)}
                     >
-                      <Link to="/addproduct"
-                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
+                      <Link
+                        to="/addproduct"
+                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 hover:rounded-lg"
                       >
                         Add New Item
                       </Link>
-                      <Link to = ""
-                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
+                      <Link
+                        to=""
+                        className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 hover:rounded-lg"
                       >
                         Edit Item
                       </Link>
@@ -140,7 +150,7 @@ const Header = () => {
                     {userData.email ===
                       import.meta.env.VITE_APP_ADMIN_EMAIL && (
                       <Link
-                        to={"addproduct"}
+                        to={"/addproduct"}
                         className="whitespace-nowrap cursor-pointer "
                       >
                         Add Product

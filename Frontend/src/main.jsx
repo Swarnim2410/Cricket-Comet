@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -19,6 +19,7 @@ import Cart from "./page/Cart.jsx";
 import DisplayCategory from "./page/DisplayCategory.jsx";
 import Success from "./page/Success.jsx";
 import Cancel from "./page/Cancel.jsx";
+import { useState } from "react";
 
 //redux imports -->
 import { store } from "./redux/index.jsx";
@@ -26,6 +27,14 @@ import { Provider } from "react-redux";
 import TermsConditions from "./page/TermsConditions.jsx";
 import AllProducts from "./component/AllProducts.jsx";
 
+// const [currentEmail, setcurrentEmail] = useState(null);
+const email = window.localStorage.getItem("email");
+console.log(email);
+// useEffect(() => {
+//   setcurrentEmail(email);
+// }, [email]);
+
+// console.log(currentEmail);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,14 +44,23 @@ const router = createBrowserRouter(
       <Route path="contact" element={<Contact />} />
       <Route path="menu/:filterby" element={<Menu />} />
       <Route path="login" element={<Login />} />
-      <Route path="addproduct" element={<AddProduct />} />
+      <Route
+        path="addproduct"
+        element={
+          import.meta.env.VITE_APP_ADMIN_EMAIL === email ? (
+            <AddProduct />
+          ) : (
+            <Home />
+          )
+        }
+      />
       <Route path="signup" element={<Signup />} />
       <Route path="cart" element={<Cart />} />
       <Route path="/:category" element={<DisplayCategory />} />
       <Route path="success" element={<Success />} />
       <Route path="cancel" element={<Cancel />} />
       <Route path="terms" element={<TermsConditions />} />
-      <Route path = "menu" element={<AllProducts/>}/>
+      <Route path="menu" element={<AllProducts />} />
     </Route>
   )
 );
