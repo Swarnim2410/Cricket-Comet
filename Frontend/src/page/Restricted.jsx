@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router-dom";
 
 const Restricted = () => {
   const access = window.localStorage.getItem("access");
-  if (access) {
+  if (access === import.meta.env.VITE_APP_ADMIN_EMAIL) {
     return <Outlet />;
   } else {
     return (

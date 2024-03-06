@@ -57,7 +57,7 @@ const Login = () => {
           window.localStorage.setItem("firstName", responseData.data.firstName);
           window.localStorage.setItem("lastName", responseData.data.lastName);
           window.localStorage.setItem("_id", responseData.data._id);
-          window.localStorage.setItem("access", responseData.redirect);
+          window.localStorage.setItem("access", responseData.data.email);
 
           dispatch(loginRedux(responseData));
           // Navigate after state has been updated
