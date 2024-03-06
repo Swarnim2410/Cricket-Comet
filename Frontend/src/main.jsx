@@ -26,15 +26,8 @@ import { store } from "./redux/index.jsx";
 import { Provider } from "react-redux";
 import TermsConditions from "./page/TermsConditions.jsx";
 import AllProducts from "./component/AllProducts.jsx";
+import Restricted from "./page/Restricted.jsx"
 
-// const [currentEmail, setcurrentEmail] = useState(null);
-const email = window.localStorage.getItem("email");
-console.log(email);
-// useEffect(() => {
-//   setcurrentEmail(email);
-// }, [email]);
-
-// console.log(currentEmail);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,16 +37,9 @@ const router = createBrowserRouter(
       <Route path="contact" element={<Contact />} />
       <Route path="menu/:filterby" element={<Menu />} />
       <Route path="login" element={<Login />} />
-      <Route
-        path="addproduct"
-        element={
-          import.meta.env.VITE_APP_ADMIN_EMAIL === email ? (
-            <AddProduct />
-          ) : (
-            <Home />
-          )
-        }
-      />
+      <Route path="/restricted" element={<Restricted/>}>
+        <Route path="addproduct" element={<AddProduct />} />
+      </Route>
       <Route path="signup" element={<Signup />} />
       <Route path="cart" element={<Cart />} />
       <Route path="/:category" element={<DisplayCategory />} />

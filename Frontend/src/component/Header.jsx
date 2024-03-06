@@ -28,6 +28,7 @@ const Header = () => {
     window.localStorage.removeItem("firstName");
     window.localStorage.removeItem("lastName");
     window.localStorage.removeItem("_id");
+    window.localStorage.removeItem("access");
     toast("Back to home page");
     dispatch(logoutRedux());
     setTimeout(() => {
@@ -90,13 +91,13 @@ const Header = () => {
                       onClick={() => setOpen(false)}
                     >
                       <Link
-                        to="/addproduct"
+                        to="/restricted/addproduct"
                         className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 hover:rounded-lg"
                       >
                         Add New Item
                       </Link>
                       <Link
-                        to=""
+                        to="/restricted/addproduct"
                         className="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 hover:rounded-lg"
                       >
                         Edit Item
@@ -150,7 +151,7 @@ const Header = () => {
                     {userData.email ===
                       import.meta.env.VITE_APP_ADMIN_EMAIL && (
                       <Link
-                        to={"/addproduct"}
+                        to={"/restricted/addproduct"}
                         className="whitespace-nowrap cursor-pointer "
                       >
                         Add Product
@@ -161,7 +162,7 @@ const Header = () => {
                     {userData.email ===
                       import.meta.env.VITE_APP_ADMIN_EMAIL && (
                       <Link
-                        to={"addproduct"}
+                        to={"/restricted/addproduct"}
                         className="whitespace-nowrap cursor-pointer "
                       >
                         Edit Product

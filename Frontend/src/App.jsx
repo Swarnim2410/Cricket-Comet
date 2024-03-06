@@ -28,6 +28,7 @@ function App() {
     const firstName = window.localStorage.getItem("firstName");
     const lastName = window.localStorage.getItem("lastName");
     const _id = window.localStorage.getItem("_id");
+
     var dataobj = {
       data: {
         firstName: firstName,
