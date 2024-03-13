@@ -33,7 +33,7 @@ const AddProduct = () => {
        let cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
        let resourceType = "image";
        let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
-       console.log(api);
+       //console.log(api);
        const res = await fetch(api, {
          method: "POST",
          // Pass the FormData directly as the body
