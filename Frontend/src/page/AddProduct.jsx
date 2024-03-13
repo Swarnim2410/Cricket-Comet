@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 const AddProduct = () => {
   const [images, setImage] = useState(false);
+  const [newimg, setNewimg] = useState(null);
   const [data, setData] = useState({
     name: "",
     category: "",
@@ -13,8 +14,7 @@ const AddProduct = () => {
     description: "",
   });
 
-  //console.log(data);
-
+  console.log(data);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => {
@@ -25,21 +25,55 @@ const AddProduct = () => {
     });
   };
 
-  const uploadImage = async (e) => {
-    // console.log(e.target.files[0]);
-    const img = await ImagetoBase64(e.target.files[0]);
-    setData((prev) => {
-      return {
-        ...prev,
-        image: img,
-      };
-    });
-    if (data.img == "") {
-      setImage(() => false);
-    } else {
-      setImage(() => true);
-    }
-  };
+   const uploadNewImage = async (type) => {
+     const d = new FormData();
+     d.append("file", newimg);
+     d.append("upload_preset", "images_preset");
+     try {
+       let cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
+       let resourceType = "image";
+       let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+       //console.log(api);
+       const res = await fetch(api, {
+         method: "POST",
+         // Pass the FormData directly as the body
+         body: d,
+       });
+
+       if (!res.ok) {
+         throw new Error("Network response was not ok");
+       }
+       const data = await res.json();
+       //console.log(data);
+       const { secure_url } = data;
+       console.log(secure_url);
+       return secure_url;
+     } catch (error) {
+       console.error(error);
+     }
+   };
+
+ const uploadImage = async (e) => {
+   const selectedImage = e.target.files[0];
+   if (!selectedImage) return; // If no image selected, exit
+
+   setNewimg(selectedImage);
+
+   try {
+     const imageURL = await uploadNewImage("image");
+     console.log(imageURL);
+     setData((prev) => ({
+       ...prev,
+       image: imageURL,
+     }));
+     setImage(true);
+   } catch (error) {
+     console.error("Error uploading image:", error);
+     setImage(false); // Set image state to false on error
+   }
+ };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +94,7 @@ const AddProduct = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
+          setNewimg(null);
           toast(data.message);
           if (data.redirect) {
             setImage(() => false);
@@ -168,7 +203,8 @@ const AddProduct = () => {
                           type="file"
                           accept="image/*"
                           className="hidden"
-                          onChange={uploadImage}
+                          onChange={uploadImage
+                          }
                         />
                       </label>
                     </div>
