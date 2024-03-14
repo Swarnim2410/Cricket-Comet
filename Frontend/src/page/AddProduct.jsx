@@ -1,6 +1,5 @@
 import React from "react";
 import { IoCloudUploadSharp } from "react-icons/io5";
-import { ImagetoBase64 } from "../utility/ImagetoBase64";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 const AddProduct = () => {
@@ -14,7 +13,8 @@ const AddProduct = () => {
     description: "",
   });
 
-  //console.log(data);
+  console.log(data);
+  // console.log(newimg);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => {
@@ -25,94 +25,116 @@ const AddProduct = () => {
     });
   };
 
-   const uploadNewImage = async (type) => {
-     const d = new FormData();
-     d.append("file", newimg);
-     d.append("upload_preset", "images_preset");
-     try {
-       let cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
-       let resourceType = "image";
-       let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
-       //console.log(api);
-       const res = await fetch(api, {
-         method: "POST",
-         // Pass the FormData directly as the body
-         body: d,
-       });
+  const uploadNewImage = async (type) => {
+    const d = new FormData();
+    d.append("file", newimg);
+    d.append("upload_preset", "images_preset");
+    try {
+      let cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
+      let resourceType = "image";
+      let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+      //console.log(api);
+      const res = await fetch(api, {
+        method: "POST",
+        // Pass the FormData directly as the body
+        body: d,
+      });
 
-       if (!res.ok) {
-         throw new Error("Network response was not ok");
-       }
-       const data = await res.json();
-       //console.log(data);
-       const { secure_url } = data;
-       console.log(secure_url);
-       return secure_url;
-     } catch (error) {
-       console.error(error);
-     }
-   };
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      //console.log(data);
+      const { secure_url } = data;
+      //console.log(secure_url);
+      return secure_url;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
- const uploadImage = async (e) => {
-   const selectedImage = e.target.files[0];
-   if (!selectedImage) return; // If no image selected, exit
+  //  const uploadImage = async (e) => {
+  //    const selectedImage = e.target.files[0];
+  //    if (!selectedImage) return; // If no image selected, exit
 
-   setNewimg(selectedImage);
+  //    setNewimg(selectedImage);
 
-   try {
-     const imageURL = await uploadNewImage("image");
-     //console.log(imageURL);
-     setData((prev) => ({
-       ...prev,
-       image: imageURL,
-     }));
-     setImage(true);
-   } catch (error) {
-     console.error("Error uploading image:", error);
-     setImage(false); // Set image state to false on error
-   }
- };
-
-
+  //   //  try {
+  //   //    const imageURL = await uploadNewImage("image");
+  //   //    //console.log(imageURL);
+  //   //    setData((prev) => ({
+  //   //      ...prev,
+  //   //      image: imageURL,
+  //   //    }));
+  //   //    setImage(true);
+  //   //  } catch (error) {
+  //   //    console.error("Error uploading image:", error);
+  //   //    setImage(false); // Set image state to false on error
+  //   //  }
+  //  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, category, image, price, description } = data;
-    if (name && category && image && price && description) {
-      //sending data to backend server in signup and getting response in fetchData
-      const fetchData = await fetch(
-        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data),
+    try {
+      const imageURL = await uploadNewImage("image");
+      //console.log(imageURL);
+      setData((prev) => ({
+        ...prev,
+        image: imageURL,
+      }));
+      setImage(true);
+
+      // Check if all required fields are filled out after image URL is set
+      const { name, category, image, price, description } = {
+        ...data,
+        image: imageURL,
+      };
+      if (name && category && image && price && description) {
+        //sending data to backend server in signup and getting response in fetchData
+        const newData = {
+          name : data.name,
+          category : data.category,
+          image : imageURL,
+          price : data.price,
+          description : data.description
         }
-      )
-        // Handle the response from the backend
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setNewimg(null);
-          toast(data.message);
-          if (data.redirect) {
-            setImage(() => false);
+        const fetchData = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(newData),
           }
-          setData(() => {
-            return {
-              name: "",
-              category: "",
-              price: "",
-              description: "",
-            };
+        )
+          // Handle the response from the backend
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setNewimg(null);
+            toast(data.message);
+            if (data.redirect) {
+              setImage(false);
+            }
+            setData(() => {
+              return {
+                name: "",
+                category: "",
+                price: "",
+                description: "",
+              };
+            });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
           });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    } else {
-      toast("Enter all details");
+      } else {
+        toast("Enter all details");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setImage(false); // Set image state to false on error
     }
   };
 
@@ -170,16 +192,16 @@ const AddProduct = () => {
                     <div className="md:col-span-5">
                       <label
                         htmlFor="image"
-                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
+                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           {/* {console.log(images)} */}
-                          {images ? (
-                            <img
-                              src={data.image}
-                              alt="Uploaded Image"
-                              className="object-fit h-40 w-40"
-                            />
+                          {newimg ? (
+                            <p className="mb-2 text-md text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                File Name : {newimg.name}
+                              </span>
+                            </p>
                           ) : (
                             <>
                               <div className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 text-4xl">
@@ -203,7 +225,8 @@ const AddProduct = () => {
                           type="file"
                           accept="image/*"
                           className="hidden"
-                          onChange={uploadImage
+                          onChange={(e) =>
+                            setNewimg((prev) => e.target.files[0])
                           }
                         />
                       </label>

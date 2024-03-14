@@ -148,7 +148,7 @@ app.post("/addproduct", async (req, res) => {
   // cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
   //   console.log(result);
   try {
-    // creating a new user in database
+    // adding a new product in database
     const data = new productModel(req.body);
     await data.save();
     res.send({ message: "Product added successfully", redirect: true });
