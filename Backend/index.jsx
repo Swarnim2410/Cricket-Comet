@@ -1,4 +1,4 @@
-//use npm run dev to run our server..
+//use npm run dev to run the server..
 
 // 4000003560000008
 

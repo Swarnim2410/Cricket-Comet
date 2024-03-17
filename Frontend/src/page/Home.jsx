@@ -86,11 +86,11 @@ const Home = () => {
               <p className="h-4 text-black">{<AiFillSafetyCertificate />}</p>
             </div>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold py-3">
-            The fastest delievery to{" "}
-            <span className="text-yellow-500">your home</span>
+          <h2 className="text-2xl md:text-4xl font-bold py-3">
+            Unveiling Products Fastest Delivery{" "}
+            <span className="text-yellow-500 py-2">at 161.3 kmph</span>
           </h2>
-          <p className="py-3 text-base">
+          <p className="py-1 text-base">
             Welcome to Cricket Comet, the premier destination for cricket
             enthusiasts! Dive into a world of excellence with our exceptional
             range of cricket gear. From finely crafted bats that deliver power
