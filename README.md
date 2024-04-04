@@ -9,6 +9,9 @@ Backend Environment variables :
 MONGO_URL : "mongoDB url"
 STRIPE_SECRET_KEY : "stripe secret key"
 FRONTEND_URL : "frontend url"
+CLOUDINARY_CLOUD_NAME = ""
+CLOUDINARY_API_KEY = ""
+CLOUDINARY_API_SECRET = ""
 start : npm run dev
 
 Frontend Environment variables :
