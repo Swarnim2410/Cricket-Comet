@@ -1,140 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoCloudUploadSharp } from "react-icons/io5";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
+
 const AddProduct = () => {
-  const [images, setImage] = useState(false);
   const [newimg, setNewimg] = useState(null);
   const [data, setData] = useState({
     name: "",
     category: "",
-    image: "",
     price: "",
     description: "",
   });
 
-  console.log(data);
-  // console.log(newimg);
+  // console.log(data);
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const uploadNewImage = async (type) => {
-    const d = new FormData();
-    d.append("file", newimg);
-    d.append("upload_preset", "images_preset");
-    try {
-      let cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
-      let resourceType = "image";
-      let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
-      //console.log(api);
-      const res = await fetch(api, {
-        method: "POST",
-        // Pass the FormData directly as the body
-        body: d,
-      });
-
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      //console.log(data);
-      const { secure_url } = data;
-      //console.log(secure_url);
-      return secure_url;
-    } catch (error) {
-      console.error(error);
-    }
+  const handleFileChange = (e) => {
+    setNewimg(e.target.files[0]);
   };
-
-  //  const uploadImage = async (e) => {
-  //    const selectedImage = e.target.files[0];
-  //    if (!selectedImage) return; // If no image selected, exit
-
-  //    setNewimg(selectedImage);
-
-  //   //  try {
-  //   //    const imageURL = await uploadNewImage("image");
-  //   //    //console.log(imageURL);
-  //   //    setData((prev) => ({
-  //   //      ...prev,
-  //   //      image: imageURL,
-  //   //    }));
-  //   //    setImage(true);
-  //   //  } catch (error) {
-  //   //    console.error("Error uploading image:", error);
-  //   //    setImage(false); // Set image state to false on error
-  //   //  }
-  //  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const imageURL = await uploadNewImage("image");
-      //console.log(imageURL);
-      setData((prev) => ({
-        ...prev,
-        image: imageURL,
-      }));
-      setImage(true);
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("category", data.category);
+      formData.append("price", data.price);
+      formData.append("description", data.description);
+      formData.append("image", newimg); // Append the file
 
-      // Check if all required fields are filled out after image URL is set
-      const { name, category, image, price, description } = {
-        ...data,
-        image: imageURL,
-      };
-      if (name && category && image && price && description) {
-        //sending data to backend server in signup and getting response in fetchData
-        const newData = {
-          name : data.name,
-          category : data.category,
-          image : imageURL,
-          price : data.price,
-          description : data.description
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
+        {
+          method: "POST",
+          body: formData,
         }
-        const fetchData = await fetch(
-          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(newData),
-          }
-        )
-          // Handle the response from the backend
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setNewimg(null);
-            toast(data.message);
-            if (data.redirect) {
-              setImage(false);
-            }
-            setData(() => {
-              return {
-                name: "",
-                category: "",
-                price: "",
-                description: "",
-              };
-            });
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      } else {
-        toast("Enter all details");
+      );
+
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await res.json();
+      console.log(responseData);
+      toast(responseData.message);
+
+      if (responseData.redirect) {
+        setData({
+          name: "",
+          category: "",
+          price: "",
+          description: "",
+        });
+        setNewimg(null);
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
-      setImage(false); // Set image state to false on error
+      console.error("Error:", error);
+      toast.error("Error adding product");
     }
   };
 
@@ -155,115 +83,110 @@ const AddProduct = () => {
               </div>
 
               <div className="lg:col-span-2">
-                <form onSubmit={handleSubmit}>
-                  <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                    <div className="md:col-span-5">
-                      <label htmlFor="name">Name of the product</label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        onChange={handleOnChange}
-                        value={data.name}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-black text-white"
-                      />
-                    </div>
-
-                    <div className="md:col-span-5">
-                      <label htmlFor="category">
-                        Choose category of the product
-                      </label>
-                      <select
-                        className="h-10 border mt-1 rounded px-2 w-full bg-black text-white"
-                        id="category"
-                        name="category"
-                        onChange={handleOnChange}
-                        value={data.category}
-                      >
-                        <option value="value">Select Category</option>
-                        <option value="bats">Bats</option>
-                        <option value="balls">Balls</option>
-                        <option value="helmets">Helmets</option>
-                        <option value="gloves">Gloves</option>
-                        <option value="shirts">Shirts</option>
-                      </select>
-                    </div>
-
-                    <div className="md:col-span-5">
-                      <label
-                        htmlFor="image"
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
-                      >
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          {/* {console.log(images)} */}
-                          {newimg ? (
-                            <p className="mb-2 text-md text-gray-500 dark:text-gray-400">
-                              <span className="font-semibold">
-                                File Name : {newimg.name}
-                              </span>
-                            </p>
-                          ) : (
-                            <>
-                              <div className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 text-4xl">
-                                <IoCloudUploadSharp />
-                              </div>
-                              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span className="font-semibold">
-                                  Click to upload
-                                </span>{" "}
-                                or drag and drop
-                              </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                SVG, PNG, or JPG
-                              </p>
-                            </>
-                          )}
-                        </div>
-
-                        <input
-                          id="image"
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) =>
-                            setNewimg((prev) => e.target.files[0])
-                          }
-                        />
-                      </label>
-                    </div>
-
-                    <div className="md:col-span-5">
-                      <label htmlFor="price">Price</label>
-                      <input
-                        type="number"
-                        name="price"
-                        id="price"
-                        onChange={handleOnChange}
-                        value={data.price}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-black text-white"
-                      />
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="description">Description</label>
-                      <textarea
-                        type="text"
-                        name="description"
-                        id="description"
-                        onChange={handleOnChange}
-                        value={data.description}
-                        className="h-20 border mt-1 rounded px-4 w-full bg-black
-                      text-white"
-                      ></textarea>
-                    </div>
-
-                    <div className="md:col-span-5 text-center">
-                      <div className="inline-flex items-end">
-                        <button className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
-                          Submit
-                        </button>
-                      </div>
-                    </div>
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                  <div className="md:col-span-5">
+                    <label htmlFor="name">Name of the product</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      onChange={handleOnChange}
+                      value={data.name}
+                      className="h-10 border mt-1 rounded px-4 w-full bg-black text-white"
+                    />
                   </div>
+
+                  <div className="md:col-span-5">
+                    <label htmlFor="category">
+                      Choose category of the product
+                    </label>
+                    <select
+                      className="h-10 border mt-1 rounded px-2 w-full bg-black text-white"
+                      id="category"
+                      name="category"
+                      onChange={handleOnChange}
+                      value={data.category}
+                    >
+                      <option value="value">Select Category</option>
+                      <option value="bats">Bats</option>
+                      <option value="balls">Balls</option>
+                      <option value="helmets">Helmets</option>
+                      <option value="gloves">Gloves</option>
+                      <option value="shirts">Shirts</option>
+                    </select>
+                  </div>
+
+                  <div className="md:col-span-5">
+                    <label
+                      htmlFor="image"
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        {newimg ? (
+                          <p className="mb-2 text-md text-gray-500 dark:text-gray-400">
+                            <span className="font-semibold">
+                              File Name : {newimg.name}
+                            </span>
+                          </p>
+                        ) : (
+                          <>
+                            <div className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 text-4xl">
+                              <IoCloudUploadSharp />
+                            </div>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              SVG, PNG, or JPG
+                            </p>
+                          </>
+                        )}
+                      </div>
+
+                      <input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        name="image"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="md:col-span-5">
+                    <label htmlFor="price">Price</label>
+                    <input
+                      type="number"
+                      name="price"
+                      id="price"
+                      onChange={handleOnChange}
+                      value={data.price}
+                      className="h-10 border mt-1 rounded px-4 w-full bg-black text-white"
+                    />
+                  </div>
+
+                  <div className="md:col-span-5">
+                    <label htmlFor="description">Description</label>
+                    <textarea
+                      type="text"
+                      name="description"
+                      id="description"
+                      onChange={handleOnChange}
+                      value={data.description}
+                      className="h-20 border mt-1 rounded px-4 w-full bg-black text-white"
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Submit
+                  </button>
                 </form>
               </div>
             </div>

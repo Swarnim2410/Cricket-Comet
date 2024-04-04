@@ -6,28 +6,16 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-// const fileUpload = require("express-fileupload");
-// const cloudinary = require("cloudinary").v2
 require("dotenv").config();
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-
-require("dotenv").config();
-
 const Stripe = require("stripe");
-
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
-// app.use(
-//   fileUpload({
-//     useTempFiles: true,
-//   })
-// );
+
+
+const upload = require("./middlewares/multer.jsx");
+const uploadOnCloudinary = require("./utils/cloudinary.jsx");
+
 const PORT = process.env.PORT || 5000;
 
 //connecting database -->
@@ -142,15 +130,32 @@ const productModel = mongoose.model("product", productSchema);
 
 //save a new product in database -->
 
-app.post("/addproduct", async (req, res) => {
-  //console.log(req.body);
-  // const file = req.files
-  // cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
-  //   console.log(result);
+app.post("/addproduct", upload.single("image"), async (req, res, next) => {
   try {
-    // adding a new product in database
-    const data = new productModel(req.body);
-    await data.save();
+    if (!req.file) {
+      return res.status(400).send({ message: "Image file not provided" });
+    }
+
+    // Upload image to Cloudinary
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+    if (!cloudinaryResponse || !cloudinaryResponse.url) {
+      return res
+        .status(500)
+        .send({ message: "Error uploading to Cloudinary" });
+    }
+
+    // Create new product object
+    const newProduct = new productModel({
+      name: req.body.name,
+      category: req.body.category,
+      image: cloudinaryResponse.url,
+      price: req.body.price,
+      description: req.body.description,
+    });
+
+    // console.log(newProduct);
+    await newProduct.save();
+
     res.send({ message: "Product added successfully", redirect: true });
   } catch (error) {
     console.error("Error:", error);

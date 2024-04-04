@@ -14,7 +14,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
-  console.log(import.meta.env.VITE_APP_SERVER_DOMAIN);
+  // console.log(import.meta.env.VITE_APP_SERVER_DOMAIN);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((pre) => {
