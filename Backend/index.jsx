@@ -12,7 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-
 const upload = require("./middlewares/multer.jsx");
 const uploadOnCloudinary = require("./utils/cloudinary.jsx");
 
@@ -139,9 +138,7 @@ app.post("/addproduct", upload.single("image"), async (req, res, next) => {
     // Upload image to Cloudinary
     const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
     if (!cloudinaryResponse || !cloudinaryResponse.url) {
-      return res
-        .status(500)
-        .send({ message: "Error uploading to Cloudinary" });
+      return res.status(500).send({ message: "Error uploading to Cloudinary" });
     }
 
     // Create new product object

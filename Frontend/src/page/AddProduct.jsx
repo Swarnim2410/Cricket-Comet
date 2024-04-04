@@ -9,9 +9,8 @@ const AddProduct = () => {
     category: "",
     price: "",
     description: "",
+    imageDataUrl: "", // Add imageDataUrl field for storing the selected image data URL
   });
-
-  // console.log(data);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +21,18 @@ const AddProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    setNewimg(e.target.files[0]);
+    const file = e.target.files[0];
+    setNewimg(file);
+
+    // Read the selected file and convert it to a data URL
+    const reader = new FileReader();
+    reader.onload = () => {
+      setData((prev) => ({
+        ...prev,
+        imageDataUrl: reader.result, // Save the data URL in state
+      }));
+    };
+    reader.readAsDataURL(file); // Read the file as a data URL
   };
 
   const handleSubmit = async (e) => {
@@ -48,7 +58,6 @@ const AddProduct = () => {
       }
 
       const responseData = await res.json();
-      console.log(responseData);
       toast(responseData.message);
 
       if (responseData.redirect) {
@@ -57,6 +66,7 @@ const AddProduct = () => {
           category: "",
           price: "",
           description: "",
+          imageDataUrl: "", // Reset imageDataUrl
         });
         setNewimg(null);
       }
@@ -122,12 +132,12 @@ const AddProduct = () => {
                       className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-900"
                     >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        {newimg ? (
-                          <p className="mb-2 text-md text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">
-                              File Name : {newimg.name}
-                            </span>
-                          </p>
+                        {data.imageDataUrl ? (
+                          <img
+                            src={data.imageDataUrl}
+                            alt="Selected Image"
+                            className="mb-4 rounded-lg max-w-full h-auto max-h-20"
+                          />
                         ) : (
                           <>
                             <div className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 text-4xl">
