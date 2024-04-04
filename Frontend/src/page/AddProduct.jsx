@@ -9,7 +9,7 @@ const AddProduct = () => {
     category: "",
     price: "",
     description: "",
-    imageDataUrl: "", // Add imageDataUrl field for storing the selected image data URL
+    imageDataUrl: "",
   });
 
   const handleOnChange = (e) => {
@@ -43,7 +43,7 @@ const AddProduct = () => {
       formData.append("category", data.category);
       formData.append("price", data.price);
       formData.append("description", data.description);
-      formData.append("image", newimg); // Append the file
+      formData.append("image", newimg); 
 
       const res = await fetch(
         `${import.meta.env.VITE_APP_SERVER_DOMAIN}/addproduct`,
@@ -66,7 +66,7 @@ const AddProduct = () => {
           category: "",
           price: "",
           description: "",
-          imageDataUrl: "", // Reset imageDataUrl
+          imageDataUrl: "",
         });
         setNewimg(null);
       }
