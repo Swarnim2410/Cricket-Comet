@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRedux } from "../redux/userSlice";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { app } from "../google/firebase";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,10 +19,55 @@ const Login = () => {
     password: "",
   });
 
+  const userData = {
+    data: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      _id: "2",
+    },
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const userData = useSelector((state) => state.user);
 
+  const handleGoogleSignIn = async () => {
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    // console.log(user);
+    let splitName = user.displayName.split(" ");
+    const firstName = splitName[0];
+    const lastName = splitName[splitName.length - 1];
+    const email = user.email;
+
+    // console.log(email);
+
+    userData.data.firstName = firstName;
+    userData.data.lastName = lastName;
+    userData.data.email = email;
+
+    // console.log(userData);
+
+    dispatch(loginRedux(userData));
+
+    window.localStorage.setItem("email", userData.data.email);
+    window.localStorage.setItem("firstName", userData.data.firstName);
+    window.localStorage.setItem("lastName", userData.data.lastName);
+    window.localStorage.setItem("_id", userData.data._id);
+    window.localStorage.setItem("access", userData.data.email);
+
+    // Navigate after state has been updated
+    setTimeout(() => {
+      navigate("/");
+    });
+    toast.success(`Welcome ${user.displayName}`);
+    // navigate("/");
+  };
+
+  // console.log(loginData);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
@@ -45,7 +93,10 @@ const Login = () => {
         const responseData = await response.json();
         //console.log(responseData);
 
-        if (responseData.redirect && (responseData.data.email === import.meta.env.VITE_APP_ADMIN_EMAIL)) {
+        if (
+          responseData.redirect &&
+          responseData.data.email === import.meta.env.VITE_APP_ADMIN_EMAIL
+        ) {
           toast("Admin login is successfull!!");
         } else {
           toast(responseData.message);
@@ -148,6 +199,16 @@ const Login = () => {
               </Link>
             </div>
           </form>
+          <div className="mt-1">
+            <div className="text-sm text-slate-400">OR</div>
+            <div
+              className="bg-white max-w-48 flex items-center rounded-3xl p-1 mt-2 cursor-pointer font-bold"
+              onClick={handleGoogleSignIn}
+            >
+              <FaGoogle className="ml-1 mr-1.5" />
+              <button className="text-black">Sign in with Google</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

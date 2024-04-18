@@ -10,6 +10,8 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 
 const Header = () => {
+
+  // console.log(import.meta.env.VITE_APP_APP_ID);
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [open, setOpen] = useState(false);
