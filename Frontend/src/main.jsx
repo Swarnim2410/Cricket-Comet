@@ -36,10 +36,10 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
       <Route path="menu/:filterby" element={<Menu />} />
-      <Route path="edit/:id" element={<EditItem />} />
       <Route path="login" element={<Login />} />
       <Route path="/restricted" element={<Restricted />}>
         <Route path="addproduct" element={<AddProduct />} />
+        <Route path="edit/:id" element={<EditItem />} />
       </Route>
       <Route path="signup" element={<Signup />} />
       <Route path="cart" element={<Cart />} />

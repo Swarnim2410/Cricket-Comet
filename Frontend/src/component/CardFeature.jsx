@@ -34,7 +34,7 @@ const CardFeature = ({ name, image, price, category, id }) => {
           <img src={image} className="h-full w-8/12" />
           {email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
             <div className="absolute top-0 right-0">
-              <Link to={`/edit/${id}`} className="relative">
+              <Link to={`/restricted/edit/${id}`} className="relative">
                 <MdModeEdit className="text-black" />
               </Link>
             </div>
