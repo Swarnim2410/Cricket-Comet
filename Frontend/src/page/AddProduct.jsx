@@ -35,7 +35,7 @@ const AddProduct = () => {
     reader.readAsDataURL(file); // Read the file as a data URL
   };
 
-  console.log(data);
+  // console.log(data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

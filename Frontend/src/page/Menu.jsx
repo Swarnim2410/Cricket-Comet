@@ -10,6 +10,7 @@ const Menu = () => {
 
   //getting id passed in params
   const productID = useParams().filterby;
+  // console.log(productID);
   const productData = useSelector((state) => state.product.productList);
 
   //getting that product with the id

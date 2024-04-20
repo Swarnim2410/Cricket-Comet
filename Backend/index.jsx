@@ -116,6 +116,38 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // finding email in the database using await
+    const result = await userModel.findOne({ email: email });
+    if (result) {
+      const isMatched = await bcrypt.compare(password, result.password);
+      if (isMatched) {
+        const data = {
+          _id: result._id,
+          firstName: result.firstName,
+          lastName: result.lastName,
+          email: result.email,
+        };
+        res.send({
+          message: `Welcome back ${result.firstName}`,
+          redirect: true,
+          data,
+        });
+      } else {
+        res.send({ message: "Your password is incorrect", redirect: false });
+      }
+    } else {
+      res.send({ message: "Email-ID is not registered", redirect: false });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
 /*********************************** Add product *************************************/
 
 const productSchema = new mongoose.Schema({
@@ -151,9 +183,60 @@ app.post("/addproduct", upload.single("image"), async (req, res, next) => {
     });
 
     // console.log(newProduct);
-    await newProduct.save();
+    // await newProduct.save();
 
     res.send({ message: "Product added successfully", redirect: true });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal Server Error", redirect: false });
+  }
+});
+
+app.post("/editproduct", upload.single("image"), async (req, res, next) => {
+  const { id, name, price, description, image } = req.body;
+  let url = "null";
+  try {
+    if (req.body.image != "null") {
+      if (!req.file) {
+        return res.status(400).send({ message: "Image file not provided" });
+      }
+
+      // Upload image to Cloudinary
+      const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+      if (!cloudinaryResponse || !cloudinaryResponse.url) {
+        return res
+          .status(500)
+          .send({ message: "Error uploading to Cloudinary" });
+      }
+      url = cloudinaryResponse.url;
+      // console.log(cloudinaryResponse.url);
+    }
+    let product = await productModel.findByIdAndUpdate(
+      id,
+      {
+        name: name,
+        price: price,
+        description: description,
+      },
+      { new: true }
+    );
+
+    if (url != "null") {
+      product = await productModel.findByIdAndUpdate(
+        id,
+        {
+          image: url,
+        },
+        { new: true }
+      );
+    }
+
+    // console.log(product);
+    res.send({
+      message: "Changes are saved successfully",
+      redirect: true,
+      product: product,
+    });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal Server Error", redirect: false });

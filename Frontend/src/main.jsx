@@ -19,6 +19,7 @@ import Cart from "./page/Cart.jsx";
 import DisplayCategory from "./page/DisplayCategory.jsx";
 import Success from "./page/Success.jsx";
 import Cancel from "./page/Cancel.jsx";
+import { EditItem } from "./page/EditItem.jsx";
 import { useState } from "react";
 
 //redux imports -->
@@ -26,8 +27,7 @@ import { store } from "./redux/index.jsx";
 import { Provider } from "react-redux";
 import TermsConditions from "./page/TermsConditions.jsx";
 import AllProducts from "./component/AllProducts.jsx";
-import Restricted from "./page/Restricted.jsx"
-
+import Restricted from "./page/Restricted.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,8 +36,9 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
       <Route path="menu/:filterby" element={<Menu />} />
+      <Route path="edit/:id" element={<EditItem />} />
       <Route path="login" element={<Login />} />
-      <Route path="/restricted" element={<Restricted/>}>
+      <Route path="/restricted" element={<Restricted />}>
         <Route path="addproduct" element={<AddProduct />} />
       </Route>
       <Route path="signup" element={<Signup />} />

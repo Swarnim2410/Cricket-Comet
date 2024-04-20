@@ -1,34 +1,56 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
- import { addCartItem } from "../redux/productSlice"
+import { addCartItem } from "../redux/productSlice";
 import { useDispatch } from "react-redux";
+import { MdModeEdit } from "react-icons/md";
 
-const CardFeature = ({ name, image, price, category, description, id }) => {
-
+const CardFeature = ({ name, image, price, category, id }) => {
   /* REDUX PART */
-  const dispatch = useDispatch()
-  
-  const handleAddCartProduct = (itr) => {
-    dispatch(addCartItem({
-      _id : id,
-      name : name,
-      price : price,
-      category : category,
-      image : image
-    }))
+  const dispatch = useDispatch();
+
+  const email = window.localStorage.getItem("access");
+  const [hov, setHov] = useState(false);
+
+  const handleAddCartProduct = () => {
+    dispatch(
+      addCartItem({
+        _id: id,
+        name: name,
+        price: price,
+        category: category,
+        image: image,
+      })
+    );
   };
 
   return (
     <div className="focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-xl shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 w-full min-w-[200px] max-w-[200px] bg-slate-300 hover:shadow-lg drop-shadow p-4 py-5 px-4 cursor-pointer flex flex-col">
       {/* As soon as we click on any product, this top: 0 takes it to the upper side*/}
-
       <Link
         to={`/menu/${id}`}
         onClick={() => window.scrollTo({ top: "0", behavior: "smooth" })}
       >
-        <div className="h-28 flex items-center justify-center">
-          <img src={image} className="h-full" />
+        <div className="relative h-28">
+          <img src={image} className="h-full w-8/12" />
+          {email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
+            <div className="absolute top-0 right-0">
+              <Link to={`/edit/${id}`} className="relative">
+                <MdModeEdit
+                  className="text-black"
+                  onMouseEnter={() => setHov(true)}
+                  onMouseLeave={() => setHov(false)}
+                />
+                {hov && (
+                  <div className="absolute text-sm -top-5 left-0 text-black">
+                    Edit
+                  </div>
+                )}
+              </Link>
+            </div>
+          )}
         </div>
+
         <h3 className="font-bold text-black capitalize text-lg mt-4 whitespace-nowrap overflow-hidden">
           {name}
         </h3>
