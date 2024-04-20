@@ -10,7 +10,6 @@ const CardFeature = ({ name, image, price, category, id }) => {
   const dispatch = useDispatch();
 
   const email = window.localStorage.getItem("access");
-  const [hov, setHov] = useState(false);
 
   const handleAddCartProduct = () => {
     dispatch(
@@ -36,16 +35,7 @@ const CardFeature = ({ name, image, price, category, id }) => {
           {email === import.meta.env.VITE_APP_ADMIN_EMAIL && (
             <div className="absolute top-0 right-0">
               <Link to={`/edit/${id}`} className="relative">
-                <MdModeEdit
-                  className="text-black"
-                  onMouseEnter={() => setHov(true)}
-                  onMouseLeave={() => setHov(false)}
-                />
-                {hov && (
-                  <div className="absolute text-sm -top-5 left-0 text-black">
-                    Edit
-                  </div>
-                )}
+                <MdModeEdit className="text-black" />
               </Link>
             </div>
           )}
