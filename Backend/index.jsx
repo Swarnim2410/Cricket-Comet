@@ -238,7 +238,7 @@ app.post("/editproduct", upload.single("image"), async (req, res, next) => {
       product: product,
     });
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error:", error.message);
     res.status(500).send({ message: "Internal Server Error", redirect: false });
   }
 });
