@@ -38,7 +38,7 @@ const Home = () => {
     text: "",
   });
 
-  console.log(data);
+  // console.log(data);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
