@@ -19,6 +19,7 @@ import Cart from "./page/Cart.jsx";
 import DisplayCategory from "./page/DisplayCategory.jsx";
 import Success from "./page/Success.jsx";
 import Cancel from "./page/Cancel.jsx";
+import { Error } from "./page/Error.jsx";
 import { EditItem } from "./page/EditItem.jsx";
 import { useState } from "react";
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
       <Route path="cancel" element={<Cancel />} />
       <Route path="terms" element={<TermsConditions />} />
       <Route path="menu" element={<AllProducts />} />
+      <Route path="*" element={<Error />} />
     </Route>
   )
 );

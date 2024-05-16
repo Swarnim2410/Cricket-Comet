@@ -10,7 +10,6 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 
 const Header = () => {
-
   // console.log(import.meta.env.VITE_APP_APP_ID);
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -31,10 +30,10 @@ const Header = () => {
     window.localStorage.removeItem("lastName");
     window.localStorage.removeItem("_id");
     window.localStorage.removeItem("access");
-    toast("Back to home page");
+    toast("Logout succesfull");
     dispatch(logoutRedux());
     setTimeout(() => {
-      navigate("/");
+      navigate("/login");
     }, 1000);
   };
 

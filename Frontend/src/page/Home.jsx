@@ -11,6 +11,8 @@ import HomeCardNull from "../component/HomeCardNull.jsx";
 import { useRef } from "react";
 import AllProducts from "../component/AllProducts.jsx";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,6 +32,17 @@ const Home = () => {
   //display loading while data is loaded..
   const loadingArray = new Array(4).fill(null);
   const loadingArray2 = new Array(5).fill(null);
+
+  const [data, setData] = useState({
+    email: "",
+    text: "",
+  });
+
+  console.log(data);
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   //to display next and previous product in horizontal scrollbar..
   const slideProductRef = useRef();
@@ -63,6 +76,15 @@ const Home = () => {
   //     return [...filteredData];
   //   });
   // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast("Thank you for your feedback");
+    setData({
+      email: "",
+      text: "",
+    });
+  };
 
   return (
     <div className="text-white p-2 md:p-4">
@@ -182,6 +204,62 @@ const Home = () => {
       {/*all categories with filter options*/}
 
       <AllProducts heading={"Your Product"} />
+
+      <div className="bg-black h-screen flex items-center justify-center p-12 py-6">
+        <div className="mx-auto w-full max-w-screen-lg bg-blue-700 px-5 py-10">
+          <div className="grid gap-5 md:grid-cols-2 md:gap-10 lg:gap-20">
+            <div className="flex justify-center md:justify-end">
+              <img
+                className="w-full max-w-sm"
+                src="https://ouch-cdn2.icons8.com/sKnF2PmYhkmP28DzIm6KqWSknT03UVWjg3FLlGYIOp4/rs:fit:684:456/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvOTI3/L2U4OWQ2NmZiLTg0/NzEtNDc3NS1hNTA0/LTMwNWRiYmJkNzg0/MC5zdmc.png"
+                alt="Marketing newsletter via computer Illustration in PNG, SVG"
+              />
+            </div>
+            <div className="flex items-center">
+              <div className="mx-auto md:mx-0">
+                <h3 className="text-4xl font-bold text-white">
+                  Share your thoughts
+                </h3>
+                <p className="mt-2 max-w-[20rem] text-lg text-white/80">
+                  Want to suggest something? Share your thoughts with us.
+                </p>
+                <form
+                  action=""
+                  onSubmit={handleSubmit}
+                  className="mt-4 flex flex-col"
+                >
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={data.email}
+                    onChange={handleOnChange}
+                    placeholder="Enter your email"
+                    className="w-full rounded border border-white/50 bg-transparent px-3 py-2 text-white placeholder:text-white/50 md:max-w-[18rem] mt-2"
+                  />
+                  <div className="md:col-span-5 mt-2">
+                    <textarea
+                      type="text"
+                      name="text"
+                      id="text"
+                      value={data.text}
+                      onChange={handleOnChange}
+                      placeholder="Message"
+                      className="h-20 border mt-1 rounded px-4 w-full bg-blue-700 text-white"
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    className="mt-4 w-full max-w-[14rem] rounded bg-white/30 px-14 py-2 text-center text-white"
+                  >
+                    Send
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import AllProducts from "../component/AllProducts";
 import { useSelector } from "react-redux";
 import CardFeature from "../component/CardFeature";
 import { Link } from "react-router-dom";
+import { Error } from "./Error";
 
 const DisplayCategory = () => {
   const productData = useSelector((state) => state.product.productList);
@@ -31,11 +32,7 @@ const DisplayCategory = () => {
   //console.log(presentCategory);
 
   if (!presentCategory) {
-    return (
-      <div className="text-blue-600 underline text-center pt-2">
-        <Link to="/">Go Back to Home Page</Link>
-      </div>
-    );
+    return <Error />;
   }
 
   // const [dataFilter, setDataFilter] = useState([]);
